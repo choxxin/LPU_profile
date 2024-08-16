@@ -3,7 +3,9 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { loginUser } from "../api/umsinfo";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 function Login() {
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,6 +21,7 @@ function Login() {
 
       console.log("Login Data:", loginData); // Debugging step
       toast.success("Login Successful");
+      router.push("/"); // Redirect to home page after successful login
     } catch (error) {
       toast.error("Login failed");
       console.log("Login Error:", error);
