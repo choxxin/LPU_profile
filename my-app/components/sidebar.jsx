@@ -2,7 +2,10 @@ import React from "react";
 
 const UserProfile = ({ name, avatarUrl, regNo }) => {
   return (
-    <div className="flex items-center p-4   shadow rounded-lg  min-w-64 min-h-64 bg-black">
+    <div
+      className="flex items-center p-4   shadow     min-w- min-h-16    
+    bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border border-gray-100"
+    >
       <img
         src={avatarUrl}
         alt={`${name}'s avatar`}

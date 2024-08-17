@@ -1,22 +1,27 @@
 "use client";
 import UserProfile from "../components/sidebar";
+import Leetcode from "@/components/leetcode";
 import Image from "next/image";
 import { useState } from "react";
 import {
   loginUser,
   getUserDetails,
   handleleetcodeprofile,
+  getProfileByRegistrationNumber,
 } from "../app/api/umsinfo";
 import Cookies from "js-cookie";
 import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
 import UserList from "@/components/userList";
+import Lapuinfo from "@/components/lapuinfo";
+import Announcements from "@/components/Announcements";
 export default function Home() {
   const [user, setUser] = useState(null);
   const [registration_number, setregistration_number] = useState("");
   const [password, setPassword] = useState("");
   const [leetcode, setleetcode] = useState("");
   const [leetusername, setleetusername] = useState(null);
+  const [profile, setprofile] = useState(null);
   const handleLogin = async () => {
     try {
       const loginData = await loginUser(registration_number, password);
@@ -67,6 +72,10 @@ export default function Home() {
   };
   const handleleetcode = (event) => {
     setleetusername(event.target.value);
+  };
+  const handlefetchprofile = async () => {
+    const profiledata = await getProfileByRegistrationNumber(12307086);
+    setprofile(profiledata);
   };
 
   return (
@@ -119,76 +128,16 @@ export default function Home() {
       ) : (
         <div>
           <h2>Login successful!</h2>
-
+          {/* <button onClick={handlefetchprofile}>fetchfunction</button>
+           */}
+          <Lapuinfo registrationNumber={"12307086"} />
           <p>Please wait while we retrieve your user details...</p>
           <Input placeholder="leetcode profile" onChange={handleleetcode} />
           <button onClick={leetcodefunction}>Get leetcode</button>
-          {leetcode ? (
-            <div>
-              Total problem solved: {leetcode.solvedProblem}
-              <br />
-              Easy solved: {leetcode.easySolved}
-              <br />
-              {/* Calculate the percentage of easy problems solved */}
-              <div
-                className="radial-progress"
-                style={{
-                  "--value": leetcode.solvedProblem
-                    ? (leetcode.easySolved / leetcode.solvedProblem) * 100
-                    : 0,
-                }}
-                role="progressbar"
-              >
-                {/* Display the percentage inside the radial progress bar */}
-                {(leetcode.solvedProblem
-                  ? (leetcode.easySolved / leetcode.solvedProblem) * 100
-                  : 0
-                ).toFixed(2)}
-                %
-              </div>
-              <br />
-              Medium solved: {leetcode.mediumSolved}
-              <br />
-              {/* Calculate the percentage of medium problems solved */}
-              <div
-                className="radial-progress"
-                style={{
-                  "--value": leetcode.solvedProblem
-                    ? (leetcode.mediumSolved / leetcode.solvedProblem) * 100
-                    : 0,
-                }}
-                role="progressbar"
-              >
-                {(leetcode.solvedProblem
-                  ? (leetcode.mediumSolved / leetcode.solvedProblem) * 100
-                  : 0
-                ).toFixed(2)}
-                %
-              </div>
-              <br />
-              Hard solved: {leetcode.hardSolved}
-              <br />
-              {/* Calculate the percentage of hard problems solved */}
-              <div
-                className="radial-progress"
-                style={{
-                  "--value": leetcode.solvedProblem
-                    ? (leetcode.hardSolved / leetcode.solvedProblem) * 100
-                    : 0,
-                }}
-                role="progressbar"
-              >
-                {(leetcode.solvedProblem
-                  ? (leetcode.hardSolved / leetcode.solvedProblem) * 100
-                  : 0
-                ).toFixed(2)}
-                %
-              </div>
-              <div />
-            </div>
-          ) : (
-            <div>NO DATA </div>
-          )}
+          <p>leetcode profile</p>
+
+          {leetcode ? <Leetcode leetcode={leetcode} /> : <div>NO DATA </div>}
+          <Announcements />
         </div>
       )}
     </div>

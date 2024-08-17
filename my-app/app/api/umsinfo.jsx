@@ -144,3 +144,27 @@ export const handleleetcodeprofile = async (leetusername) => {
     throw error;
   }
 };
+export const getProfileByRegistrationNumber = async (registrationNumber) => {
+  try {
+    // Find the user by registration number
+    const user = await User.findOne({ registrationNumber });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Find the profile associated with the user
+    const userProfile = await Profile.findOne({ user: user._id })
+      .populate("user")
+      .lean();
+
+    if (!userProfile) {
+      throw new Error("Profile not found for the given registration number");
+    }
+
+    return userProfile; // Return the profile data
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+    throw error;
+  }
+};

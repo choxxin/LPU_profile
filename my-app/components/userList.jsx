@@ -24,7 +24,7 @@ const UserList = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 bg-blue-700 w-full min-h-16 ">
+    <div className="   gap-4 sm:grid-cols-2 lg:grid-cols-3 flex flex-col bg-gray-300 w-80 min-w-52 min-h-16 ">
       {users.map((user) => (
         <UserProfile
           key={user._id}
