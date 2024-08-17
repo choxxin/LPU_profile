@@ -1,5 +1,5 @@
 "use client";
-
+import UserProfile from "../components/sidebar";
 import Image from "next/image";
 import { useState } from "react";
 import {
@@ -10,7 +10,7 @@ import {
 import Cookies from "js-cookie";
 import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
-
+import UserList from "@/components/userList";
 export default function Home() {
   const [user, setUser] = useState(null);
   const [registration_number, setregistration_number] = useState("");
@@ -79,6 +79,7 @@ export default function Home() {
       >
         Login
       </button>
+      <UserList />
       <br />
       <button onClick={handleuserdetail}>Get details</button>
       <div className="py-5 ">
@@ -107,23 +108,83 @@ export default function Home() {
             width={200}
             height={200}
           />
+          {/* <UserProfile
+            name={user.name}
+            avatarUrl={user.profile_image}
+            regNo={user.registration_number}
+          /> */}
+
           {/* Display more user details */}
         </div>
       ) : (
         <div>
           <h2>Login successful!</h2>
+
           <p>Please wait while we retrieve your user details...</p>
           <Input placeholder="leetcode profile" onChange={handleleetcode} />
           <button onClick={leetcodefunction}>Get leetcode</button>
           {leetcode ? (
             <div>
-              Total problem solved:{leetcode.solvedProblem}
+              Total problem solved: {leetcode.solvedProblem}
               <br />
-              Easy solved:{leetcode.easySolved}
+              Easy solved: {leetcode.easySolved}
               <br />
-              Medium solved:{leetcode.mediumSolved}
+              {/* Calculate the percentage of easy problems solved */}
+              <div
+                className="radial-progress"
+                style={{
+                  "--value": leetcode.solvedProblem
+                    ? (leetcode.easySolved / leetcode.solvedProblem) * 100
+                    : 0,
+                }}
+                role="progressbar"
+              >
+                {/* Display the percentage inside the radial progress bar */}
+                {(leetcode.solvedProblem
+                  ? (leetcode.easySolved / leetcode.solvedProblem) * 100
+                  : 0
+                ).toFixed(2)}
+                %
+              </div>
               <br />
-              Hard solved:{leetcode.hardSolved}
+              Medium solved: {leetcode.mediumSolved}
+              <br />
+              {/* Calculate the percentage of medium problems solved */}
+              <div
+                className="radial-progress"
+                style={{
+                  "--value": leetcode.solvedProblem
+                    ? (leetcode.mediumSolved / leetcode.solvedProblem) * 100
+                    : 0,
+                }}
+                role="progressbar"
+              >
+                {(leetcode.solvedProblem
+                  ? (leetcode.mediumSolved / leetcode.solvedProblem) * 100
+                  : 0
+                ).toFixed(2)}
+                %
+              </div>
+              <br />
+              Hard solved: {leetcode.hardSolved}
+              <br />
+              {/* Calculate the percentage of hard problems solved */}
+              <div
+                className="radial-progress"
+                style={{
+                  "--value": leetcode.solvedProblem
+                    ? (leetcode.hardSolved / leetcode.solvedProblem) * 100
+                    : 0,
+                }}
+                role="progressbar"
+              >
+                {(leetcode.solvedProblem
+                  ? (leetcode.hardSolved / leetcode.solvedProblem) * 100
+                  : 0
+                ).toFixed(2)}
+                %
+              </div>
+              <div />
             </div>
           ) : (
             <div>NO DATA </div>

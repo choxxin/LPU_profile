@@ -3,6 +3,13 @@ import mongoose from "mongoose";
 const { Schema, model, models } = mongoose;
 
 const UserSchema = new Schema({
+  name: {
+    type: String,
+  },
+  profile_image: {
+    type: String,
+  },
+
   registrationNumber: {
     type: String,
     required: [true, "Registration number is required"],

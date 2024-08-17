@@ -1,10 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { loginUser } from "../api/umsinfo";
+import { loginUser, getUserDetails } from "../api/umsinfo";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+
 function Login() {
+  const [loading, setloading] = useState(false);
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -12,6 +14,7 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      setloading(true);
       const loginData = await loginUser(username, password);
       const cookie = loginData.cookie;
       // Store the cookie in the browser
@@ -22,9 +25,16 @@ function Login() {
       console.log("Login Data:", loginData); // Debugging step
       toast.success("Login Successful");
       router.push("/"); // Redirect to home page after successful login
+      const userDataRaw = await getUserDetails(username, password, cookie);
+      const userData = userDataRaw.toObject
+        ? userDataRaw.toObject()
+        : userDataRaw;
+      // console.log(userData);
     } catch (error) {
       toast.error("Login failed");
       console.log("Login Error:", error);
+    } finally {
+      setloading(false);
     }
     // Handle login logic here, such as API calls
     console.log("Username:", username);
@@ -76,7 +86,11 @@ function Login() {
           type="submit"
           className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
         >
-          Login
+          {loading ? (
+            <span className="loading loading-infinity loading-sm"></span>
+          ) : (
+            "Login"
+          )}
         </button>
       </form>
     </div>
