@@ -1,10 +1,13 @@
 import React from "react";
 
-const UserProfile = ({ name, avatarUrl, regNo }) => {
+const UserProfile = ({ name, avatarUrl, regNo, selected }) => {
   return (
     <div
-      className="flex items-center p-4   shadow     min-w- min-h-16    
-    bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border border-gray-100"
+      className={`flex items-center p-4 shadow min-w-52 min-h-16 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm border ${
+        selected
+          ? "bg-blue-500 text-white"
+          : "bg-gray-400 bg-opacity-20 border-gray-100"
+      }`}
     >
       <img
         src={avatarUrl}

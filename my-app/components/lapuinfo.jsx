@@ -1,38 +1,81 @@
 import React, { useEffect, useState } from "react";
 import { getProfileByRegistrationNumber } from "@/app/api/umsinfo";
-
+import Leetcode from "./leetcode";
+import NOLeetcode from "./noleetcode";
+import { handleleetcodeprofile } from "@/app/api/umsinfo";
 const Lapuinfo = ({ registrationNumber }) => {
   const [profileData, setProfileData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [hover, setHover] = useState(false);
+  const [leetcodeProfile, setLeetcodeProfile] = useState(null);
+  // const [leetcodeusername, setleetcodeusername] = useState(null);
 
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        setLoading(true);
-        const data = await getProfileByRegistrationNumber(registrationNumber);
-        setProfileData(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+  const fetchProfileData = async () => {
+    try {
+      setLoading(true);
+      const data = await getProfileByRegistrationNumber(registrationNumber);
+      setProfileData(data);
+      if (data.leetcode_username) {
+        const leetData = await handleleetcodeprofile(data.leetcode_username);
+        setLeetcodeProfile(leetData);
       }
-    };
-
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
     if (registrationNumber) {
       fetchProfileData();
     }
   }, [registrationNumber]);
 
-  if (loading) return <div>Loading...</div>;
+  //For fetching leetcode api
+  // useEffect(() => {
+  //   // Fetch the user data on mount
+  //   const fetchUser = async () => {
+  //     try {
+  //       if (profileData.leetcode_username) {
+  //         const Leetdata = await handleleetcodeprofile(
+  //           profileData.leetcode_profile
+  //         );
+  //         setLeetcodeProfile(Leetdata);
+  //         setleetcodeusername(profileData.leetcode_username);
+  //       }
+  //     } catch (err) {
+  //       console.error("Error fetching user data:", err);
+  //       setError("Failed to fetch user data.");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchUser();
+  // }, []);
+  const handleProfileSaved = () => {
+    fetchProfileData(); // Refresh profile data
+  };
+  if (loading)
+    return (
+      <div className="flex justify-center items-center">
+        <span className="loading loading-ring   h-60 font-bold  loading-lg"></span>
+      </div>
+    );
   if (error) return <div>Error: {error}</div>;
 
   return (
     <>
       {profileData ? (
-        <div className="min-h-32 w-full border-2 border-black">
+        <div className="min-h-32 w-full border-2 border-black ">
           <div className="border-2 border-black gap-5 flex">
+            <div className="avatar">
+              <div className="mask mask-squircle w-44">
+                <img src={profileData.user.profile_image} />
+              </div>
+            </div>
+
             <div className="text-5xl text-bold text-gray-800">
               <p>{profileData.user.name}</p>
             </div>
@@ -40,7 +83,7 @@ const Lapuinfo = ({ registrationNumber }) => {
               <p>Reg No:{profileData.user.registrationNumber}</p>
             </div>
           </div>
-          <div className="flex gap-5">
+          <div className="flex gap-5 mt-6">
             <div
               className="radial-progress text-gray-600 text-2xl"
               style={{
@@ -70,6 +113,16 @@ const Lapuinfo = ({ registrationNumber }) => {
           </div>
 
           <div>{/* Add more fields as needed */}</div>
+          <div>
+            {leetcodeProfile ? (
+              <Leetcode leetcode={leetcodeProfile} />
+            ) : (
+              <NOLeetcode
+                reg_no={registrationNumber}
+                onProfileSaved={handleProfileSaved}
+              />
+            )}
+          </div>
         </div>
       ) : (
         <div className="min-h-32 w-full border-2 border-black">

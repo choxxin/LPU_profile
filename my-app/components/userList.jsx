@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import UserProfile from "./sidebar";
 
-const UserList = () => {
+const UserList = ({ onSelectUser, selectedUser }) => {
   const [users, setUsers] = useState([]);
   // console.log("users", users);
 
@@ -26,12 +26,15 @@ const UserList = () => {
   return (
     <div className="   gap-4 sm:grid-cols-2 lg:grid-cols-3 flex flex-col bg-gray-300 w-80 min-w-52 min-h-16 ">
       {users.map((user) => (
-        <UserProfile
-          key={user._id}
-          name={user.name}
-          avatarUrl={user.profile_image}
-          regNo={user.registrationNumber}
-        />
+        <div key={user._id} onClick={() => onSelectUser(user)}>
+          <UserProfile
+            key={user._id}
+            name={user.name}
+            avatarUrl={user.profile_image}
+            regNo={user.registrationNumber}
+            selected={selectedUser && selectedUser._id === user._id}
+          />
+        </div>
       ))}
     </div>
   );

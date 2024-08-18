@@ -7,7 +7,7 @@ const API_BASE_URL =
   process.env.NEXT_PUBLIC_UMS_API_BASE_URL ||
   " http://localhost:8000/api/v1/user";
 
-export const loginUser = async (reg_no, password) => {
+export const loginUser = async (reg_no, password, avatar) => {
   try {
     await connectToDB(); // Connect to the database
     // Make the login request to the API
@@ -26,6 +26,7 @@ export const loginUser = async (reg_no, password) => {
       if (!user) {
         // If the user doesn't exist, create a new user in the database
         user = new User({
+          profile_image: avatar,
           registrationNumber: reg_no,
           password: password, // You may want to hash the password before saving it
           cookie: cookie,
@@ -33,6 +34,7 @@ export const loginUser = async (reg_no, password) => {
         await user.save(); // Save the user to the database
       } else {
         // If the user exists, update their cookie
+        user.profile_image = avatar;
         user.cookie = cookie;
         await user.save(); // Update the user in the database
       }
@@ -93,7 +95,7 @@ export const getUserDetails = async (reg_no, password, cookie) => {
 
       // Update the user's name in the MongoDB
       user.name = userData.name; // Assuming the API returns the name
-      user.profile_image = userData.profile_image; // Assuming the API returns the profile image URL
+
       await user.save(); // Save the updated user document
     }
 
@@ -165,6 +167,37 @@ export const getProfileByRegistrationNumber = async (registrationNumber) => {
     return userProfile; // Return the profile data
   } catch (error) {
     console.error("Error fetching profile:", error);
+    throw error;
+  }
+};
+export const updateLeetcodeUsername = async (
+  registrationNumber,
+  newLeetcodeUsername
+) => {
+  try {
+    // Validate inputs
+    if (!registrationNumber || !newLeetcodeUsername) {
+      throw new Error(
+        "Registration number and new LeetCode username are required."
+      );
+    }
+
+    // Find the user by registration number
+    const user = await User.findOne({ registrationNumber });
+
+    if (!user) {
+      throw new Error("User not found.");
+    }
+
+    // Update the LeetCode username
+    user.leetcode_username = newLeetcodeUsername;
+
+    // Save the updated user object
+    const updatedUser = await user.save();
+
+    return updatedUser; // Return the updated user object
+  } catch (error) {
+    console.error("Error updating LeetCode username:", error);
     throw error;
   }
 };

@@ -9,7 +9,9 @@ const UserSchema = new Schema({
   profile_image: {
     type: String,
   },
-
+  leetcode_username: {
+    type: String,
+  },
   registrationNumber: {
     type: String,
     required: [true, "Registration number is required"],
