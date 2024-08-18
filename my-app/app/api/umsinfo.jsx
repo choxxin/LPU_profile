@@ -140,8 +140,24 @@ export const handleleetcodeprofile = async (leetusername) => {
     const response = await axios.get(
       `http://localhost:3000/${leetusername}/solved`
     );
+
+    // Check if the user exists in the response
+    if (response.data.matchedUser === null) {
+      throw new Error("User does not exist.");
+    }
+
     return response.data;
   } catch (error) {
+    // Handle specific error messages
+    if (error.response && error.response.data.errors) {
+      const errors = error.response.data.errors;
+      if (errors.some((err) => err.message.includes("user does not exist"))) {
+        console.error("User Not Found Error:", error);
+        throw new Error("User does not exist.");
+      }
+    }
+
+    // Log and rethrow other errors
     console.error("Login Error:", error);
     throw error;
   }
@@ -193,11 +209,13 @@ export const updateLeetcodeUsername = async (
     user.leetcode_username = newLeetcodeUsername;
 
     // Save the updated user object
-    const updatedUser = await user.save();
+    await user.save();
 
-    return updatedUser; // Return the updated user object
+    // Return the updated user object
+    return true;
   } catch (error) {
     console.error("Error updating LeetCode username:", error);
+    return false;
     throw error;
   }
 };

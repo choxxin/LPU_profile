@@ -19,7 +19,6 @@ const NOLeetcode = ({ reg_no, onProfileSaved }) => {
         setLoading(true);
         setError(null);
 
-        // Save the LeetCode username to the database
         const updatedUser = await updateLeetcodeUsername(reg_no, username);
         console.log(updatedUser);
 

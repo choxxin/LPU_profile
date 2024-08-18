@@ -3,6 +3,7 @@ import { getProfileByRegistrationNumber } from "@/app/api/umsinfo";
 import Leetcode from "./leetcode";
 import NOLeetcode from "./noleetcode";
 import { handleleetcodeprofile } from "@/app/api/umsinfo";
+import toast from "react-hot-toast";
 const Lapuinfo = ({ registrationNumber }) => {
   const [profileData, setProfileData] = useState(null);
   const [error, setError] = useState(null);
@@ -16,12 +17,18 @@ const Lapuinfo = ({ registrationNumber }) => {
       setLoading(true);
       const data = await getProfileByRegistrationNumber(registrationNumber);
       setProfileData(data);
-      if (data.leetcode_username) {
-        const leetData = await handleleetcodeprofile(data.leetcode_username);
+      console.log(data.user.leetcode_username);
+      if (data.user.leetcode_username) {
+        const leetData = await handleleetcodeprofile(
+          data.user.leetcode_username
+        );
         setLeetcodeProfile(leetData);
+      } else {
+        setLeetcodeProfile(null);
       }
     } catch (err) {
       setError(err.message);
+      toast.error("Failed to fetch profile data", err);
     } finally {
       setLoading(false);
     }
@@ -56,6 +63,9 @@ const Lapuinfo = ({ registrationNumber }) => {
   // }, []);
   const handleProfileSaved = () => {
     fetchProfileData(); // Refresh profile data
+  };
+  const changeleetprofile = () => {
+    setLeetcodeProfile(null);
   };
   if (loading)
     return (
@@ -115,7 +125,11 @@ const Lapuinfo = ({ registrationNumber }) => {
           <div>{/* Add more fields as needed */}</div>
           <div>
             {leetcodeProfile ? (
-              <Leetcode leetcode={leetcodeProfile} />
+              <Leetcode
+                leetcode={leetcodeProfile}
+                switchprofile={changeleetprofile}
+                username={profileData.user.leetcode_username}
+              />
             ) : (
               <NOLeetcode
                 reg_no={registrationNumber}
