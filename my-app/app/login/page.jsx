@@ -59,7 +59,8 @@ function Login() {
       // Store the cookie in the browser
       Cookies.set("session", cookie, { path: "/" });
       const meow = await getUserDetails(username, password, cookie);
-
+      setName(meow.user.name);
+      console.log(meow.user.name);
       console.log("Login successful and cookie stored:", cookie);
 
       console.log("Login Data:", loginData); // Debugging step

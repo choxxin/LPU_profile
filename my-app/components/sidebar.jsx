@@ -3,7 +3,7 @@ import React from "react";
 const UserProfile = ({ name, avatarUrl, regNo, selected }) => {
   return (
     <div
-      className={`flex items-center p-4 shadow min-w-52 min-h-16 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm border ${
+      className={` cursor-pointer flex items-center p-4 shadow min-w-52 min-h-16 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm border ${
         selected
           ? "bg-blue-500 text-white"
           : "bg-gray-400 bg-opacity-20 border-gray-100"
@@ -15,8 +15,8 @@ const UserProfile = ({ name, avatarUrl, regNo, selected }) => {
         className="w-16 h-16 rounded-full"
       />
       <div className="ml-4">
-        <h2 className="text-xl text-white font-semibold">{name}</h2>
-        <p className="text-gray-5 00 text-white">{regNo}</p>
+        <h2 className="text-xl dark:text-white   font-semibold">{name}</h2>
+        <p className="text-gray-5 00 dark:text-white text-gray-600">{regNo}</p>
       </div>
     </div>
   );

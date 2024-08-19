@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import useUserStore from "@/store/useUserStore";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import ThemeSwitcher from "@/components/NightButton";
 import {
   loginUser,
   getUserDetails,
@@ -23,7 +24,7 @@ import { Router } from "next/router";
 
 export default function Home() {
   const [selectedUser, setSelectedUser] = useState(null);
-  const { registrationNumber, dp } = useUserStore();
+  const { registrationNumber, dp, name } = useUserStore();
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
   const onLogout = async () => {
@@ -49,7 +50,7 @@ export default function Home() {
     <div className="flex flex-col h-screen">
       {/* Navbar */}
       {/* <nav className="bg-blue-600 text-white p-4" */}
-      <div className="navbar bg-slate-300 min-h-20">
+      <div className="navbar bg-slate-300 dark:bg-slate-800 min-h-20">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -91,7 +92,7 @@ export default function Home() {
               </li>
             </ul>
           </div>
-          <a className="btn btn-ghost text-xl hidden md:inline-block">
+          <a className="btn btn-ghost text-xl hidden md:inline-block dark:text-white">
             LPU PROFILE
           </a>
           <img
@@ -100,7 +101,7 @@ export default function Home() {
             width={60}
           ></img>
         </div>
-        <div className="navbar-center hidden lg:flex">
+        <div className="navbar-center hidden lg:flex dark:text-white">
           <ul className="menu menu-horizontal px-1">
             <li>
               <Link href="/announcements">Nav1</Link>
@@ -125,10 +126,20 @@ export default function Home() {
         </div>
         <div className="navbar-end">
           {/* <a className="btn">Button</a> */}
+          <div className="mr-5 hover:bg-slate-400 w-12  rounded-2xl h-11">
+            {" "}
+            <ThemeSwitcher />
+          </div>
+
           <div className="dropdown dropdown-end flex gap-5">
-            <p className="mt-2 text-xl font-semibold text-slate-400">
-              {isClient ? registrationNumber : ""}
-            </p>
+            <div className="flex flex-col">
+              <span className="text-2xl text-slate-500  ">
+                {isClient ? name : ""}
+              </span>
+              <p className="mt-2 text-xl font-semibold text-slate-400">
+                {isClient ? registrationNumber : ""}
+              </p>
+            </div>
             <div
               tabIndex={0}
               role="button"
@@ -168,17 +179,17 @@ export default function Home() {
 
       {/* Main Content */}
       <div className="flex flex-col lg:flex-row flex-grow">
-        <div className="lg:w-1/4 w-full bg-gray-300">
+        <div className="lg:w-1/4 w-full bg-gray-300 dark:bg-slate-900">
           <UserList
             onSelectUser={setSelectedUser}
             selectedUser={selectedUser}
           />
         </div>
-        <div className="lg:w-3/4 w-full flex-grow p-4">
+        <div className="lg:w-3/4 w-full flex-grow p-4 dark:bg-slate-500">
           {selectedUser ? (
             <Lapuinfo registrationNumber={selectedUser.registrationNumber} />
           ) : (
-            <div className="text-center text-gray-600">
+            <div className="text-center text-gray-600   dark:text-gray-200">
               Select a user to view their profile.
             </div>
           )}

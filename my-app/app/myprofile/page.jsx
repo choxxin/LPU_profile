@@ -8,10 +8,12 @@ import {
   updateUserAvatar,
 } from "@/app/api/umsinfo";
 import Leetcode from "../../components/leetcode";
+import { useRouter } from "next/navigation";
 import NOLeetcode from "../../components/noleetcode";
 import { handleleetcodeprofile } from "@/app/api/umsinfo";
 import toast from "react-hot-toast";
 const MyProfile = () => {
+  const router = useRouter();
   const [defaultbutton, setdefaultbutton] = useState(false);
   const { registrationNumber, dp, setdp } = useUserStore();
   const [profileData, setProfileData] = useState(null);
@@ -55,6 +57,7 @@ const MyProfile = () => {
       );
       setdp(Inputs.avatar);
       toast.success("Avatar updated successfully");
+      router.push("/");
     } catch (error) {
       console.error("Error updating avatar:", error);
       toast.error("Failed to update avatar");
@@ -137,15 +140,15 @@ const MyProfile = () => {
     <>
       <div className="avatar flex items-center "></div>
       {profileData ? (
-        <div className="min-h-32 w-full border-2 border-black ">
-          <div className="border-2 border-black gap-5 flex">
+        <div className="min-h-32 w-full  gradient-profile">
+          <div className=" gap-5 flex ml-5">
             <div className="avatar">
               <div className="mask mask-squircle w-44">
                 <img src={Inputs.avatar} onLoad={Loadhandler} />
               </div>
             </div>
 
-            <div className="text-5xl text-bold text-gray-800">
+            <div className="text-5xl text-bold text-gray-800 ">
               <p>{profileData.user.name}</p>
             </div>
             <div className="text-xl mt-7 text-semibold text-gray-600">
@@ -185,7 +188,7 @@ const MyProfile = () => {
               )}
             </button>
           </div>
-          <div className="flex gap-5 mt-6">
+          <div className="flex gap-5 mt-6 ml-5">
             <div
               className="radial-progress text-gray-600 text-2xl"
               style={{
