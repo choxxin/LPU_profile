@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+"use state";
+import { useEffect, useState } from "react";
 import { getProfileByRegistrationNumber } from "@/app/api/umsinfo";
 import Leetcode from "./leetcode";
 import NOLeetcode from "./noleetcode";
@@ -129,11 +130,13 @@ const Lapuinfo = ({ registrationNumber }) => {
                 leetcode={leetcodeProfile}
                 switchprofile={changeleetprofile}
                 username={profileData.user.leetcode_username}
+                reg_no={profileData.user.registrationNumber}
               />
             ) : (
               <NOLeetcode
                 reg_no={registrationNumber}
                 onProfileSaved={handleProfileSaved}
+                name={profileData.user.name}
               />
             )}
           </div>

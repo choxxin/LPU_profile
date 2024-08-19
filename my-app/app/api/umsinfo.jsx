@@ -47,34 +47,6 @@ export const loginUser = async (reg_no, password, avatar) => {
   }
 };
 
-// export const getUserDetails = async (reg_no, password, cookie) => {
-//   try {
-//     const user = await User.findOne(reg_no, password);
-
-//     if (!user) {
-//       const response = await axios.post(`${API_BASE_URL}/me`, {
-//         reg_no,
-//         password,
-//         cookie,
-//       });
-
-//       return response.data;
-//     } else {
-//       const userProfile = await Profile.findOne({ user: user._id }).populate(
-//         "user"
-//       );
-//       if (!userProfile) {
-//         throw new Error("User profile not found.");
-//       }
-
-//       return userProfile;
-//     }
-//   } catch (error) {
-//     console.error("Get User Details Error:", error);
-//     throw error;
-//   }
-// };
-
 export const getUserDetails = async (reg_no, password, cookie) => {
   try {
     // Find the user by registration number and password
@@ -216,6 +188,27 @@ export const updateLeetcodeUsername = async (
   } catch (error) {
     console.error("Error updating LeetCode username:", error);
     return false;
+    throw error;
+  }
+};
+export const deleteUserAndProfile = async (registrationNumber) => {
+  try {
+    // Find the user by registration number
+    const user = await User.findOne({ registrationNumber });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Delete the associated profile
+    await Profile.findOneAndDelete({ user: user._id });
+
+    // Delete the user
+    await User.findOneAndDelete({ registrationNumber });
+
+    return { message: "User and profile deleted successfully" };
+  } catch (error) {
+    console.error("Error deleting user and profile:", error);
     throw error;
   }
 };

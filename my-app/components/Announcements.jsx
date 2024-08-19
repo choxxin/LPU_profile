@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import useUserStore from "@/store/useUserStore";
 const Announcements = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [displayedAnnouncements, setDisplayedAnnouncements] = useState([]);
@@ -8,16 +8,16 @@ const Announcements = () => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10); // Number of items per page
-
+  const { registrationNumber, pass, cook } = useUserStore();
   useEffect(() => {
     const fetchAnnouncements = async () => {
       try {
         const response = await axios.post(
           "http://localhost:8000/api/v1/annoucements",
           {
-            reg_no: "12307086",
-            password: "12aAA12!",
-            cookie: "ASP.NET_SessionId=xg0c3owxz4te2ctw4rn011hu",
+            reg_no: registrationNumber,
+            password: pass,
+            cookie: cook,
           }
         );
         const data = response.data.annoucements || [];

@@ -1,6 +1,7 @@
 import React from "react";
-
-const Leetcode = ({ leetcode, switchprofile, username }) => {
+import useUserStore from "@/store/useUserStore";
+const Leetcode = ({ leetcode, switchprofile, username, reg_no }) => {
+  const { registrationNumber } = useUserStore();
   console.log(leetcode);
   const changeprofile = () => {
     switchprofile();
@@ -93,15 +94,17 @@ const Leetcode = ({ leetcode, switchprofile, username }) => {
       </div>
       <div>
         {" "}
-        <button onClick={changeprofile} className="btn btn-accent mt-8">
-          Change Username
-          <img
-            src="https://leetcode.com/static/images/LeetCode_Sharing.png"
-            height={80}
-            width={80}
-            alt=""
-          />
-        </button>
+        {reg_no === registrationNumber && (
+          <button onClick={changeprofile} className="btn btn-accent mt-8">
+            Change Username
+            <img
+              src="https://leetcode.com/static/images/LeetCode_Sharing.png"
+              height={80}
+              width={80}
+              alt=""
+            />
+          </button>
+        )}
       </div>
     </div>
   );
