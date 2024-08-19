@@ -83,8 +83,8 @@ const Announcements = () => {
             onClick={() => handlePageChange(index + 1)}
             className={`mx-1 px-3 py-1 border rounded ${
               currentPage === index + 1
-                ? "bg-blue-500 text-white"
-                : "bg-white text-blue-500"
+                ? "bg-blue-500 text-gray-400"
+                : "bg-gray-900 text-blue-500"
             }`}
           >
             {index + 1}
