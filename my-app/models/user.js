@@ -25,18 +25,7 @@ const UserSchema = new Schema({
     type: String, // Add this field if storing the cookie
   },
 });
-// Middleware to remove the associated profile before deleting a user
-// UserSchema.pre("findOneAndDelete", async function (next) {
-//   const user = await this.model.findOne(this.getFilter());
 
-//   if (user) {
-//     await Profile.findOneAndDelete({ user: user._id });
-//   }
-
-//   next();
-// });
-
-// Check if the model already exists to avoid redefinition
 const User = models.User || model("User", UserSchema);
 
 export default User;

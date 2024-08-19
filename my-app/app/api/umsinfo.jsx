@@ -212,3 +212,22 @@ export const deleteUserAndProfile = async (registrationNumber) => {
     throw error;
   }
 };
+export const updateUserAvatar = async (registrationNumber, newAvatarUrl) => {
+  try {
+    // Find the user by registration number and update their profile image
+    const updatedUser = await User.findOneAndUpdate(
+      { registrationNumber },
+      { profile_image: newAvatarUrl },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedUser) {
+      throw new Error("User not found");
+    }
+
+    return { message: "User avatar updated successfully", user: updatedUser };
+  } catch (error) {
+    console.error("Error updating user avatar:", error);
+    throw error;
+  }
+};

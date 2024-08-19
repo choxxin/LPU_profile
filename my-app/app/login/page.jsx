@@ -93,7 +93,7 @@ function Login() {
 
   return (
     <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
-      <div className="avatar flex items-center    ">
+      <div className="avatar flex items-center ">
         <div className="w-28 rounded-xl">
           {/* <label>Avatar</label> */}
           <img src={Inputs.avatar} onLoad={Loadhandler} />
