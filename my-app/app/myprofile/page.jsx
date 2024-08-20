@@ -1,4 +1,5 @@
 "use client";
+import { changethemeup } from "@/app/api/umsinfo";
 import useUserStore from "@/store/useUserStore";
 import { TbArrowsExchange } from "react-icons/tb";
 import { FaCheck } from "react-icons/fa";
@@ -15,7 +16,8 @@ import toast from "react-hot-toast";
 const MyProfile = () => {
   const router = useRouter();
   const [defaultbutton, setdefaultbutton] = useState(false);
-  const { registrationNumber, dp, setdp } = useUserStore();
+  const { registrationNumber, dp, setdp, setThemetop, themetop } =
+    useUserStore();
   const [profileData, setProfileData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -28,6 +30,7 @@ const MyProfile = () => {
   });
   const [Loadingg, setLoadingg] = useState(false);
   const [ImageLoad, setImageLoad] = useState(true);
+  const [color, SetColor] = useState(themetop);
   const changeanime = async (e) => {
     e.preventDefault();
     setdefaultbutton(true);
@@ -49,6 +52,30 @@ const MyProfile = () => {
       setLoadingg(false);
     }
   };
+
+  useEffect(() => {
+    const themechange = async () => {
+      try {
+        const response = await changethemeup(registrationNumber, color);
+        if (response) {
+          // Success: Display a success message
+        } else {
+          // Failure: Handle if no response is returned
+          toast.error("Failed to change theme");
+        }
+        // Optionally, update local storage or state
+        setThemetop(color);
+        toast.success("Theme changed successfully");
+      } catch (error) {
+        toast.error("Failed to change theme");
+      }
+    };
+
+    if (registrationNumber) {
+      themechange(); // Call themechange only if registrationNumber is set
+    }
+  }, [color]);
+
   const changeavatar = async () => {
     try {
       const response = await updateUserAvatar(
@@ -94,6 +121,7 @@ const MyProfile = () => {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     if (registrationNumber) {
       fetchProfileData();
@@ -140,7 +168,7 @@ const MyProfile = () => {
     <>
       <div className="avatar flex items-center "></div>
       {profileData ? (
-        <div className="min-h-32 w-full  gradient-profile">
+        <div className={`min-h-32 w-full ${color}`}>
           <div className=" gap-5 flex ml-5">
             <div className="avatar">
               <div className="mask mask-squircle w-44">
@@ -187,10 +215,42 @@ const MyProfile = () => {
                 <span className="loading loading-spinner"></span>
               )}
             </button>
+            <div className="  h-16 gap-7 justify-center min-w-52 flex items-center mt-7 ml-3">
+              <div
+                className={`border-2 border-white h-10 w-10 gradient-profile`}
+                onClick={() => {
+                  SetColor("gradient-profile");
+                }}
+              ></div>
+              <div
+                className="border-2 border-white h-10 w-10 g1"
+                onClick={() => {
+                  SetColor("g1");
+                }}
+              ></div>
+              <div
+                className="border-2 border-white h-10 w-10 gtop "
+                onClick={() => {
+                  SetColor("gtop");
+                }}
+              ></div>
+              <div
+                className="border-2 border-white h-10 w-10 g2"
+                onClick={() => {
+                  SetColor("g2");
+                }}
+              ></div>
+              <div
+                className="border-2 border-white h-10 w-10 g3 "
+                onClick={() => {
+                  SetColor("g3");
+                }}
+              ></div>
+            </div>
           </div>
           <div className="flex gap-5 mt-6 ml-5">
             <div
-              className="radial-progress text-gray-600 text-2xl"
+              className="radial-progress text-pink-400 text-2xl ml-5 cgpa"
               style={{
                 "--value": (profileData.cgpa / 10) * 100,
                 "--size": "12rem",
@@ -205,7 +265,7 @@ const MyProfile = () => {
                 : `CGPA: ${profileData.cgpa}`}
             </div>
             <div>
-              <div className="text-3xl font-bold mt-3 font-mono text-gray-600">
+              <div className="text-3xl font-bold mt-3 font-mono gsec">
                 <p>Section: {profileData.section}</p>
               </div>
               <div className="mt-8 font-semibold ">

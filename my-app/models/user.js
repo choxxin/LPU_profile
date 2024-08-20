@@ -24,6 +24,14 @@ const UserSchema = new Schema({
   cookie: {
     type: String, // Add this field if storing the cookie
   },
+  themetop: {
+    type: String, // Add this field if
+    default: "gradient-profile",
+  },
+  themedown: {
+    type: String, // Add this field if
+    default: "gradient-profile",
+  },
 });
 
 const User = models.User || model("User", UserSchema);

@@ -9,6 +9,8 @@ const useUserStore = create(
       cook: "",
       dp: "",
       name: "",
+      themetop: "",
+      themedown: "",
 
       setRegistrationNumber: (registrationNumber) =>
         set({ registrationNumber }),
@@ -17,6 +19,8 @@ const useUserStore = create(
       setdp: (dp) => set({ dp }),
       setName: (name) => set({ name }),
       setCook: (cook) => set({ cook }),
+      setThemetop: (themetop) => set({ themetop }),
+      setThemedown: (themedown) => set({ themedown }),
     }),
     {
       name: "user-storage",

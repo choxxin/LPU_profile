@@ -231,3 +231,43 @@ export const updateUserAvatar = async (registrationNumber, newAvatarUrl) => {
     throw error;
   }
 };
+
+export const changethemeup = async (registrationNumber, themeup) => {
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { registrationNumber },
+      { themetop: themeup },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedUser) {
+      throw new Error("User not found");
+    }
+
+    // return updatedUser; // Return the updated user document
+    return { message: "User themetop successfully", user: updatedUser };
+  } catch (error) {
+    console.error("Error updating top theme:", error);
+    throw error; // Rethrow the error so it can be caught by the caller
+  }
+};
+
+export const changethemedown = async (registrationNumber, themebot) => {
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { registrationNumber },
+      { themedown: themebot },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedUser) {
+      throw new Error("User not found");
+    }
+
+    // return updatedUser; // Return the updated user document
+    return { message: "User themedown successfully", user: updatedUser };
+  } catch (error) {
+    console.error("Error updating down theme:", error);
+    throw error; // Rethrow the error so it can be caught by the caller
+  }
+};

@@ -1,13 +1,44 @@
+"use client ";
+import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import React from "react";
 import useUserStore from "@/store/useUserStore";
-const Leetcode = ({ leetcode, switchprofile, username, reg_no }) => {
-  const { registrationNumber } = useUserStore();
+import { changethemedown } from "@/app/api/umsinfo";
+const Leetcode = ({ leetcode, switchprofile, username, reg_no, themedow }) => {
+  const { registrationNumber, setThemedown, themedown } = useUserStore();
+  const [color, SetColor] = useState(themedown);
   console.log(leetcode);
   const changeprofile = () => {
     switchprofile();
   };
+  useEffect(() => {
+    const themechange = async () => {
+      try {
+        const response = await changethemedown(registrationNumber, color);
+        if (response) {
+          // Success: Display a success message
+        } else {
+          // Failure: Handle if no response is returned
+          toast.error("Failed to change theme");
+        }
+        // Optionally, update local storage or state
+        setThemedown(color);
+        toast.success("Theme changed successfully");
+      } catch (error) {
+        toast.error("Failed to change theme");
+      }
+    };
+
+    if (registrationNumber) {
+      themechange(); // Call themechange only if registrationNumber is set
+    }
+  }, [color]);
   return (
-    <div className="flex flex-col min-w-64 md:flex-row gap-10   mt-5 py-11 gradient-profile ">
+    <div
+      className={`flex flex-col min-w-64 md:flex-row gap-10   mt-5 py-11 ${
+        themedow || color
+      } `}
+    >
       <div className="flex flex-col gap-1 py-10 ml-5">
         <p className="text-center text-3xl gradient-blue   font-bold">
           {username}
@@ -104,6 +135,43 @@ const Leetcode = ({ leetcode, switchprofile, username, reg_no }) => {
               alt=""
             />
           </button>
+        )}
+      </div>
+      <div className="mr-5">
+        {" "}
+        {reg_no === registrationNumber && (
+          <div className="  h-16 gap-7 justify-center min-w-52 flex items-center mt-7 ml-3">
+            <div
+              className={`border-2 border-white h-10 w-10 gradient-profile`}
+              onClick={() => {
+                SetColor("gradient-profile");
+              }}
+            ></div>
+            <div
+              className="border-2 border-white h-10 w-10 g1"
+              onClick={() => {
+                SetColor("g1");
+              }}
+            ></div>
+            <div
+              className="border-2 border-white h-10 w-10 gtop "
+              onClick={() => {
+                SetColor("gtop");
+              }}
+            ></div>
+            <div
+              className="border-2 border-white h-10 w-10 g2"
+              onClick={() => {
+                SetColor("g2");
+              }}
+            ></div>
+            <div
+              className="border-2 border-white h-10 w-10 g3 "
+              onClick={() => {
+                SetColor("g3");
+              }}
+            ></div>
+          </div>
         )}
       </div>
     </div>

@@ -5,7 +5,9 @@ import Leetcode from "./leetcode";
 import NOLeetcode from "./noleetcode";
 import { handleleetcodeprofile } from "@/app/api/umsinfo";
 import toast from "react-hot-toast";
+import useUserStore from "@/store/useUserStore";
 const Lapuinfo = ({ registrationNumber }) => {
+  const { themetop } = useUserStore();
   const [profileData, setProfileData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -79,7 +81,11 @@ const Lapuinfo = ({ registrationNumber }) => {
   return (
     <>
       {profileData ? (
-        <div className="min-h-32 w-full       gradient-profile ">
+        <div
+          className={`min-h-32 w-full        ${
+            profileData.user.themetop || "gradient-profile"
+          }`}
+        >
           <div className="  gap-5 flex">
             <div className="avatar mt-5 ml-5">
               <div className="mask mask-squircle w-44">
@@ -96,7 +102,7 @@ const Lapuinfo = ({ registrationNumber }) => {
           </div>
           <div className="flex gap-5 mt-6">
             <div
-              className="radial-progress text-gray-400 dark:text-violet-400 text-2xl ml-5"
+              className="radial-progress text-pink-400 text-2xl ml-5 cgpa"
               style={{
                 "--value": (profileData.cgpa / 10) * 100,
                 "--size": "12rem",
@@ -131,6 +137,7 @@ const Lapuinfo = ({ registrationNumber }) => {
                 switchprofile={changeleetprofile}
                 username={profileData.user.leetcode_username}
                 reg_no={profileData.user.registrationNumber}
+                themedow={profileData.user.themedown}
               />
             ) : (
               <NOLeetcode
