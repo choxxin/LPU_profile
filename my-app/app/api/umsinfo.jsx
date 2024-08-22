@@ -285,14 +285,22 @@ export const Update_course_detail = async (
         cookie,
       }
     );
-    console.log(response.data);
+
     const facultyDetails = response.data.faculty_details;
     const courses = Object.keys(facultyDetails).map((courseCode) => {
+      // console.log(courseCode);
+      // console.log(courseCode.CSE306.faculty_name);
+      const facultyName = facultyDetails[courseCode].faculty_name;
+      if (!facultyName) {
+        console.error(`Missing faculty_name for course code: ${courseCode}`);
+      } else {
+        console.log(facultyName);
+      }
       return {
         course_code: courseCode || "Unknown Code",
         course_name:
           facultyDetails[courseCode].course_title || "Unknown Course",
-        faculty_name:
+        facultyname:
           facultyDetails[courseCode].faculty_name || "Unknown Faculty",
         credits: parseInt(facultyDetails[courseCode].credits, 10) || 0,
       };
@@ -302,8 +310,22 @@ export const Update_course_detail = async (
       { courses }, // Update the user's courses
       { new: true } // Return the updated user document
     );
-    return { message: "User courses updated successfully", user: user };
+    return { message: "User courses updated successfully" };
   } catch (error) {
-    return { message: "Error  updating user courses", error: error };
+    return { message: "Error  updating user courses" };
+  }
+};
+
+export const GetCourses = async (registrationNumber) => {
+  try {
+    const user = await User.findOne({ registrationNumber });
+    if (!user) {
+      throw new Error("User not found");
+    }
+    console.log(user.courses);
+    return user.courses;
+  } catch (error) {
+    console.error("Error fetching user courses:", error);
+    throw error;
   }
 };

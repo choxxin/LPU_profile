@@ -10,9 +10,8 @@ const CourseSchema = new Schema({
     type: String,
     required: true,
   },
-  faculty_name: {
+  facultyname: {
     type: String,
-    required: true,
   },
   credits: {
     type: Number,

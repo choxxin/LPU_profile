@@ -1,9 +1,10 @@
 "use state";
 import { useEffect, useState } from "react";
+import CourseList from "./courseList";
 import { getProfileByRegistrationNumber } from "@/app/api/umsinfo";
 import Leetcode from "./leetcode";
 import NOLeetcode from "./noleetcode";
-import { handleleetcodeprofile } from "@/app/api/umsinfo";
+import { handleleetcodeprofile, GetCourses } from "@/app/api/umsinfo";
 import toast from "react-hot-toast";
 import useUserStore from "@/store/useUserStore";
 const Lapuinfo = ({ registrationNumber }) => {
@@ -14,11 +15,13 @@ const Lapuinfo = ({ registrationNumber }) => {
   const [hover, setHover] = useState(false);
   const [leetcodeProfile, setLeetcodeProfile] = useState(null);
   // const [leetcodeusername, setleetcodeusername] = useState(null);
-
+  const [course, setcourse] = useState(null);
   const fetchProfileData = async () => {
     try {
       setLoading(true);
       const data = await getProfileByRegistrationNumber(registrationNumber);
+      // const courses = await GetCourses(registrationNumber);
+      // setcourse(courses);
       setProfileData(data);
       console.log(data.user.leetcode_username);
       if (data.user.leetcode_username) {
@@ -147,6 +150,7 @@ const Lapuinfo = ({ registrationNumber }) => {
               />
             )}
           </div>
+          {/* <div><CourseList course={course} /></div> */}
         </div>
       ) : (
         <div className="min-h-32 w-full border-2 border-black">
