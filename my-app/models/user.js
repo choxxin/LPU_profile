@@ -1,6 +1,16 @@
 import mongoose from "mongoose";
 import Profile from "./profile";
 const { Schema, model, models } = mongoose;
+const CourseSchema = new Schema({
+  course_name: {
+    type: String,
+    required: true,
+  },
+  faculty_name: {
+    type: String,
+    required: true,
+  },
+});
 
 const UserSchema = new Schema({
   name: {
@@ -32,6 +42,7 @@ const UserSchema = new Schema({
     type: String, // Add this field if
     default: "gradient-profile",
   },
+  courses: [CourseSchema],
 });
 
 const User = models.User || model("User", UserSchema);

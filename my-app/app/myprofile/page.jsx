@@ -4,6 +4,7 @@ import useUserStore from "@/store/useUserStore";
 import { TbArrowsExchange } from "react-icons/tb";
 import { FaCheck } from "react-icons/fa";
 import { useEffect, useState } from "react";
+import Subjectt from "@/components/graph/Subattendence";
 import {
   getProfileByRegistrationNumber,
   updateUserAvatar,
@@ -293,6 +294,9 @@ const MyProfile = () => {
                 name={profileData.user.name}
               />
             )}
+          </div>
+          <div className="ml-10">
+            <Subjectt />
           </div>
         </div>
       ) : (

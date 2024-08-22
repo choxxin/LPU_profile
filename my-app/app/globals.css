@@ -109,3 +109,41 @@
 .g3 {
   background-image: linear-gradient(to top, #9be15d 0%, #00e3ae 100%);
 }
+:root {
+  --color-chrome: #4285f4;
+  --color-safari: #ff9f00;
+  --color-firefox: #ff7139;
+  --color-edge: #0078d7;
+  --color-other: #8c8c8c;
+
+  --chart-1: 210, 100%, 56%;
+  --chart-2: 34, 100%, 50%;
+  --chart-3: 21, 100%, 56%;
+  --chart-4: 202, 100%, 48%;
+  --chart-5: 0, 0%, 50%;
+}
+.timetable {
+  background: linear-gradient(to bottom, #323232 0%, #3f3f3f 40%, #1c1c1c 150%),
+    linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(0, 0, 0, 0.25) 200%
+    );
+  background-blend-mode: multiply;
+}
+.ttt {
+  background-color: #cddcdc;
+  background-image: radial-gradient(
+      at 50% 100%,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(0, 0, 0, 0.5) 100%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(0, 0, 0, 0.25) 100%
+    );
+  background-blend-mode: screen, overlay;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
