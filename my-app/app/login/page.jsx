@@ -1,7 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { loginUser, getUserDetails } from "../api/umsinfo";
+import {
+  loginUser,
+  getUserDetails,
+  Update_course_detail,
+} from "../api/umsinfo";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import useUserStore from "@/store/useUserStore";
@@ -10,7 +14,7 @@ function Login() {
   const [loading, setloading] = useState(false);
   const router = useRouter();
   const [username, setUsername] = useState("12307086");
-  const [password, setPassword] = useState("12aAA12!");
+  const [password, setPassword] = useState("12aAA12@");
   const {
     setRegistrationNumber,
     setPass,
@@ -67,6 +71,8 @@ function Login() {
       // Store the cookie in the browser
       Cookies.set("session", cookie, { path: "/" });
       const meow = await getUserDetails(username, password, cookie);
+      const course = await Update_course_detail(username, password, cookie);
+      console.log("tmkc", course);
       setName(meow.user.name);
       console.log(meow.user.name);
       console.log("Login successful and cookie stored:", cookie);

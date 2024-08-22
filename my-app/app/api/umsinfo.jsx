@@ -271,3 +271,39 @@ export const changethemedown = async (registrationNumber, themebot) => {
     throw error; // Rethrow the error so it can be caught by the caller
   }
 };
+export const Update_course_detail = async (
+  registrationNumber,
+  password,
+  cookie
+) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/api/v1/timetable/classes",
+      {
+        reg_no: registrationNumber,
+        password,
+        cookie,
+      }
+    );
+    console.log(response.data);
+    const facultyDetails = response.data.faculty_details;
+    const courses = Object.keys(facultyDetails).map((courseCode) => {
+      return {
+        course_code: courseCode || "Unknown Code",
+        course_name:
+          facultyDetails[courseCode].course_title || "Unknown Course",
+        faculty_name:
+          facultyDetails[courseCode].faculty_name || "Unknown Faculty",
+        credits: parseInt(facultyDetails[courseCode].credits, 10) || 0,
+      };
+    });
+    const user = await User.findOneAndUpdate(
+      { registrationNumber },
+      { courses }, // Update the user's courses
+      { new: true } // Return the updated user document
+    );
+    return { message: "User courses updated successfully", user: user };
+  } catch (error) {
+    return { message: "Error  updating user courses", error: error };
+  }
+};
