@@ -5,6 +5,7 @@ import { getProfileByRegistrationNumber } from "@/app/api/umsinfo";
 import Leetcode from "./leetcode";
 import NOLeetcode from "./noleetcode";
 import { handleleetcodeprofile, GetCourses } from "@/app/api/umsinfo";
+import useCourses from "../../my-app/hooks/GetCourses";
 import toast from "react-hot-toast";
 import useUserStore from "@/store/useUserStore";
 const Lapuinfo = ({ registrationNumber }) => {
@@ -15,6 +16,7 @@ const Lapuinfo = ({ registrationNumber }) => {
   const [hover, setHover] = useState(false);
   const [leetcodeProfile, setLeetcodeProfile] = useState(null);
   // const [leetcodeusername, setleetcodeusername] = useState(null);
+  // const { courses, errorr } = useCourses(registrationNumber);
   const [course, setcourse] = useState(null);
   const fetchProfileData = async () => {
     try {
@@ -22,7 +24,7 @@ const Lapuinfo = ({ registrationNumber }) => {
       const data = await getProfileByRegistrationNumber(registrationNumber);
       const courses = await GetCourses(registrationNumber);
       setcourse(courses);
-      console.log("Teri maa", courses);
+      // console.log("Teri maa", courses);
       setProfileData(data);
       console.log(data.user.leetcode_username);
       if (data.user.leetcode_username) {
