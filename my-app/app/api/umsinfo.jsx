@@ -288,37 +288,36 @@ export const Update_course_detail = async (
 
     const facultyDetails = response.data.faculty_details;
     const courses = Object.keys(facultyDetails).map((courseCode) => {
-      // console.log(courseCode);
-      // console.log(courseCode.CSE306.faculty_name);
-      const facultyName = facultyDetails[courseCode].faculty_name;
-      if (!facultyName) {
-        console.error(`Missing faculty_name for course code: ${courseCode}`);
-      } else {
-        console.log(facultyName);
-      }
+      const facultyDetail = facultyDetails[courseCode];
       return {
         course_code: courseCode || "Unknown Code",
-        course_name:
-          facultyDetails[courseCode].course_title || "Unknown Course",
-        facultyname:
-          facultyDetails[courseCode].faculty_name || "Unknown Faculty",
-        credits: parseInt(facultyDetails[courseCode].credits, 10) || 0,
+        course_name: facultyDetail.course_title || "Unknown Course",
+        facultyname: facultyDetail.faculty_name || "Unknown Faculty",
+        credits: parseInt(facultyDetail.credits, 10) || 0,
       };
     });
+
     const user = await User.findOneAndUpdate(
       { registrationNumber },
       { courses }, // Update the user's courses
       { new: true } // Return the updated user document
     );
-    return { message: "User courses updated successfully" };
+
+    if (user) {
+      // const plainUser = convertToPlainObject(user);
+      return { message: "User courses updated successfully", user };
+    }
+
+    return { message: "User not found" };
   } catch (error) {
-    return { message: "Error  updating user courses" };
+    console.error("Error updating user courses:", error);
+    return { message: "Error updating user courses" };
   }
 };
 
 export const GetCourses = async (registrationNumber) => {
   try {
-    const user = await User.findOne({ registrationNumber });
+    const user = await User.findOne({ registrationNumber }).lean();
     if (!user) {
       throw new Error("User not found");
     }
@@ -329,3 +328,25 @@ export const GetCourses = async (registrationNumber) => {
     throw error;
   }
 };
+
+// const convertToPlainObject = (user) => {
+//   if (!user) return null;
+
+//   // Convert the user document to a plain object
+//   const plainUser = user.toObject({ getters: true, versionKey: false });
+
+//   // Convert the ObjectId fields to strings
+//   plainUser._id = plainUser._id.toString();
+
+//   if (plainUser.courses) {
+//     plainUser.courses = plainUser.courses.map((course) => {
+//       // Convert each course's _id to a string and remove other Mongoose fields
+//       return {
+//         ...course,
+//         _id: course._id.toString(),
+//       };
+//     });
+//   }
+
+//   return plainUser;
+// };

@@ -1,4 +1,4 @@
-"use state";
+"use client";
 import { useEffect, useState } from "react";
 import CourseList from "./courseList";
 import { getProfileByRegistrationNumber } from "@/app/api/umsinfo";
@@ -20,8 +20,9 @@ const Lapuinfo = ({ registrationNumber }) => {
     try {
       setLoading(true);
       const data = await getProfileByRegistrationNumber(registrationNumber);
-      // const courses = await GetCourses(registrationNumber);
-      // setcourse(courses);
+      const courses = await GetCourses(registrationNumber);
+      setcourse(courses);
+      console.log("Teri maa", courses);
       setProfileData(data);
       console.log(data.user.leetcode_username);
       if (data.user.leetcode_username) {
@@ -131,7 +132,6 @@ const Lapuinfo = ({ registrationNumber }) => {
               </div>
             </div>
           </div>
-
           <div>{/* Add more fields as needed */}</div>
           <div>
             {leetcodeProfile ? (
@@ -150,7 +150,9 @@ const Lapuinfo = ({ registrationNumber }) => {
               />
             )}
           </div>
-          {/* <div><CourseList course={course} /></div> */}
+          <div>
+            <CourseList courses={course} />
+          </div>
         </div>
       ) : (
         <div className="min-h-32 w-full border-2 border-black">

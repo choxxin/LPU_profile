@@ -14,7 +14,7 @@ function Login() {
   const [loading, setloading] = useState(false);
   const router = useRouter();
   const [username, setUsername] = useState("12307086");
-  const [password, setPassword] = useState("12aAA12@");
+  const [password, setPassword] = useState("");
   const {
     setRegistrationNumber,
     setPass,
@@ -69,7 +69,7 @@ function Login() {
       // Store the cookie in the browser
       Cookies.set("session", cookie, { path: "/" });
       const meow = await getUserDetails(username, password, cookie);
-      // const course = await Update_course_detail(username, password, cookie);
+      const course = await Update_course_detail(username, password, cookie);
 
       setName(meow.user.name);
       console.log(meow.user.name);
