@@ -53,22 +53,19 @@ const MyProfile = () => {
       setLoadingg(false);
     }
   };
-
   useEffect(() => {
     const themechange = async () => {
       try {
         const response = await changethemeup(registrationNumber, color);
         if (response) {
-          // Success: Display a success message
         } else {
-          // Failure: Handle if no response is returned
           toast.error("Failed to change theme");
         }
         // Optionally, update local storage or state
         setThemetop(color);
-        toast.success("Theme changed successfully");
+        toast.success("Theme changed successfully leetcode");
       } catch (error) {
-        toast.error("Failed to change theme");
+        toast.error("Failed to change theme leetcode");
       }
     };
 
@@ -79,10 +76,7 @@ const MyProfile = () => {
 
   const changeavatar = async () => {
     try {
-      const response = await updateUserAvatar(
-        registrationNumber,
-        Inputs.avatar
-      );
+      await updateUserAvatar(registrationNumber, Inputs.avatar);
       setdp(Inputs.avatar);
       toast.success("Avatar updated successfully");
       router.push("/");
@@ -96,16 +90,12 @@ const MyProfile = () => {
     setImageLoad(true);
   };
 
-  useEffect(() => {
-    console.log("Avatar updated:", avatar);
-    setInputs({ ...Inputs, avatar: avatar });
-  }, [avatar]);
-
   const fetchProfileData = async () => {
     try {
       setLoading(true);
       const data = await getProfileByRegistrationNumber(registrationNumber);
       setProfileData(data);
+      SetColor(data.user.themetop);
       console.log(data.user.leetcode_username);
       if (data.user.leetcode_username) {
         const leetData = await handleleetcodeprofile(

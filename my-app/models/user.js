@@ -1,23 +1,23 @@
 import mongoose from "mongoose";
 import Profile from "./profile";
 const { Schema, model, models } = mongoose;
-const CourseSchema = new Schema({
-  course_code: {
-    type: String,
-    required: true,
-  },
-  course_name: {
-    type: String,
-    required: true,
-  },
-  facultyname: {
-    type: String,
-  },
-  credits: {
-    type: Number,
-    required: true,
-  },
-});
+// const CourseSchema = new Schema({
+//   course_code: {
+//     type: String,
+//     required: true,
+//   },
+//   course_name: {
+//     type: String,
+//     required: true,
+//   },
+//   facultyname: {
+//     type: String,
+//   },
+//   credits: {
+//     type: Number,
+//     required: true,
+//   },
+// });
 
 const UserSchema = new Schema({
   name: {
@@ -49,7 +49,6 @@ const UserSchema = new Schema({
     type: String, // Add this field if
     default: "gradient-profile",
   },
-  courses: [CourseSchema],
 });
 
 const User = models.User || model("User", UserSchema);

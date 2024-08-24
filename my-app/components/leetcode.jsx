@@ -23,9 +23,9 @@ const Leetcode = ({ leetcode, switchprofile, username, reg_no, themedow }) => {
         }
         // Optionally, update local storage or state
         setThemedown(color);
-        toast.success("Theme changed successfully");
+        toast.success("Theme changed successfully leetcode");
       } catch (error) {
-        toast.error("Failed to change theme");
+        toast.error("Failed to change theme leetcode");
       }
     };
 

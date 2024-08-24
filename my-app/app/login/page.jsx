@@ -15,6 +15,7 @@ function Login() {
   const router = useRouter();
   const [username, setUsername] = useState("12307086");
   const [password, setPassword] = useState("");
+  const [Login, setLogin] = useState(false);
   const {
     setRegistrationNumber,
     setPass,
@@ -45,7 +46,6 @@ function Login() {
       setavatar(data.url);
 
       setLoadingg(false);
-      setInputs({ ...Inputs, avatar: data.url });
     } catch (error) {
       console.error("Error fetching image:", error);
       setLoadingg(false);
@@ -62,9 +62,16 @@ function Login() {
   }, [avatar]);
   const handleLogin = async (e) => {
     e.preventDefault();
+    let loginData;
     try {
       setloading(true);
-      const loginData = await loginUser(username, password, avatar);
+      if (Login) {
+        loginData = await loginUser(username, password, avatar); // Send avatar if isLogin is true
+        console.log("Login successful with avatar:", loginData);
+      } else {
+        loginData = await loginUser(username, password); // Send only username and password if isLogin is
+        console.log("Login successful without avatar:", loginData);
+      }
       const cookie = loginData.cookie;
       // Store the cookie in the browser
       Cookies.set("session", cookie, { path: "/" });
@@ -72,15 +79,15 @@ function Login() {
       const course = await Update_course_detail(username, password, cookie);
 
       setName(meow.user.name);
-      console.log(meow.user.name);
-      console.log("Login successful and cookie stored:", cookie);
+      // console.log(meow.user.name);
+      // console.log("Login successful and cookie stored:", cookie);
 
-      console.log("Login Data:", loginData); // Debugging step
+      // console.log("Login Data:", loginData); // Debugging step
 
       setRegistrationNumber(username);
       setPass(password);
       setCook(cookie);
-      setdp(avatar);
+      setdp(meow.user.profile_image);
       setThemetop(meow.user.themetop);
       setThemedown(meow.user.themedown);
 
@@ -97,33 +104,54 @@ function Login() {
     console.log("Username:", username);
     console.log("Password:", password);
   };
+  const handleToggle = () => {
+    setLogin((prevState) => !prevState); // Toggle the state
+  };
 
   return (
     <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
-      <div className="avatar flex items-center ">
-        <div className="w-28 rounded-xl">
-          {/* <label>Avatar</label> */}
-          <img src={avatar} onLoad={Loadhandler} />
-        </div>
+      {Login ? (
+        <div className="avatar flex items-center mb-10 ">
+          <div className="w-28 rounded-xl">
+            {/* <label>Avatar</label> */}
+            <img src={avatar} onLoad={Loadhandler} />
+          </div>
 
-        <button
-          className="btn btn-ghost ml-7 text-gray-800 border-2 border-gray-300"
-          onClick={changeanime}
-          disabled={Loadingg}
-        >
-          {!Loadingg && ImageLoad ? (
-            "Change"
-          ) : (
-            <span className="loading loading-spinner"></span>
-          )}
-        </button>
+          <button
+            className="btn btn-ghost ml-7 text-gray-800 border-2 border-gray-300"
+            onClick={changeanime}
+            disabled={Loadingg}
+          >
+            {!Loadingg && ImageLoad ? (
+              "Change"
+            ) : (
+              <span className="loading loading-spinner"></span>
+            )}
+          </button>
+        </div>
+      ) : (
+        <div></div>
+      )}
+      <div className="form-control w-52 mb-4">
+        <label className="label cursor-pointer">
+          <span className="label-text font-semibold text-2xl">
+            {Login ? "Register" : "Login"}
+          </span>
+          <input
+            type="checkbox"
+            className="toggle toggle-accent"
+            checked={Login}
+            onChange={handleToggle} // Handle the toggle event
+          />
+        </label>
       </div>
+
       <form
         onSubmit={handleLogin}
         className="bg-white p-6 rounded shadow-md w-80"
       >
         <h2 className="text-2xl font-bold mb-4 text-center">
-          Login to Lpu profile
+          {Login ? "Register" : "Login"} to Lpu profile
         </h2>
         <div className="mb-4">
           <label

@@ -49,6 +49,7 @@ export default function HorizontalBars() {
           }
         );
         setTodayTimetable(result.today_time_table);
+
         setData(transformedData);
         setLoading(false);
       })

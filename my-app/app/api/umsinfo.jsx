@@ -3,6 +3,7 @@ import axios from "axios";
 import { connectToDB } from "../../utils/database";
 import User from "../../models/user";
 import Profile from "@/models/profile";
+import Subject from "@/models/subjects";
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_UMS_API_BASE_URL ||
   " http://localhost:8000/api/v1/user";
@@ -34,7 +35,7 @@ export const loginUser = async (reg_no, password, avatar) => {
         await user.save(); // Save the user to the database
       } else {
         // If the user exists, update their cookie
-        user.profile_image = avatar;
+
         user.cookie = cookie;
         await user.save(); // Update the user in the database
       }
@@ -144,15 +145,15 @@ export const getProfileByRegistrationNumber = async (registrationNumber) => {
     }
 
     // Find the profile associated with the user
-    const userProfile = await Profile.findOne({ user: user._id })
-      .populate("user")
-      .lean();
-
+    const userProfile = await Profile.findOne({ user: user._id }).populate(
+      "user"
+    );
+    console.log(userProfile);
     if (!userProfile) {
       throw new Error("Profile not found for the given registration number");
     }
 
-    return userProfile; // Return the profile data
+    return JSON.parse(JSON.stringify(userProfile)); // Return the profile data
   } catch (error) {
     console.error("Error fetching profile:", error);
     throw error;
@@ -277,6 +278,7 @@ export const Update_course_detail = async (
   cookie
 ) => {
   try {
+    // Fetch course data from the API
     const response = await axios.post(
       "http://localhost:8000/api/v1/timetable/classes",
       {
@@ -290,6 +292,7 @@ export const Update_course_detail = async (
     const courses = Object.keys(facultyDetails).map((courseCode) => {
       const facultyDetail = facultyDetails[courseCode];
       return {
+        reg_no: registrationNumber, // Include the registration number
         course_code: courseCode || "Unknown Code",
         course_name: facultyDetail.course_title || "Unknown Course",
         facultyname: facultyDetail.faculty_name || "Unknown Faculty",
@@ -297,56 +300,57 @@ export const Update_course_detail = async (
       };
     });
 
-    const user = await User.findOneAndUpdate(
-      { registrationNumber },
-      { courses }, // Update the user's courses
-      { new: true } // Return the updated user document
-    );
-
-    if (user) {
-      // const plainUser = convertToPlainObject(user);
-      return { message: "User courses updated successfully", user };
+    // Update or insert course details for the registration number
+    for (const course of courses) {
+      await Subject.findOneAndUpdate(
+        { reg_no: registrationNumber, course_code: course.course_code },
+        course,
+        { upsert: true, new: true }
+      );
     }
 
-    return { message: "User not found" };
+    return { message: "Courses updated successfully" };
   } catch (error) {
-    console.error("Error updating user courses:", error);
-    return { message: "Error updating user courses" };
+    console.error("Error updating course details:", error);
+    throw error;
   }
 };
 
 export const GetCourses = async (registrationNumber) => {
   try {
-    const user = await User.findOne({ registrationNumber }).lean();
-    if (!user) {
-      throw new Error("User not found");
+    // Fetch courses for the given registration number
+    const courses = await Subject.find({ reg_no: registrationNumber });
+
+    if (!courses || courses.length === 0) {
+      throw new Error("No courses found for the given registration number");
     }
-    console.log(user.courses);
-    return user.courses;
+
+    // Return the courses as a JSON object
+    return JSON.parse(JSON.stringify(courses));
   } catch (error) {
-    console.error("Error fetching user courses:", error);
+    console.error("Error fetching courses:", error);
     throw error;
   }
 };
 
-// const convertToPlainObject = (user) => {
-//   if (!user) return null;
+const convertToPlainObject = (user) => {
+  if (!user) return null;
 
-//   // Convert the user document to a plain object
-//   const plainUser = user.toObject({ getters: true, versionKey: false });
+  // Convert the user document to a plain object
+  const plainUser = user.toObject({ getters: true, versionKey: false });
 
-//   // Convert the ObjectId fields to strings
-//   plainUser._id = plainUser._id.toString();
+  // Convert the ObjectId fields to strings
+  plainUser._id = plainUser._id.toString();
 
-//   if (plainUser.courses) {
-//     plainUser.courses = plainUser.courses.map((course) => {
-//       // Convert each course's _id to a string and remove other Mongoose fields
-//       return {
-//         ...course,
-//         _id: course._id.toString(),
-//       };
-//     });
-//   }
+  if (plainUser.courses) {
+    plainUser.courses = plainUser.courses.map((course) => {
+      // Convert each course's _id to a string and remove other Mongoose fields
+      return {
+        ...course,
+        _id: course._id.toString(),
+      };
+    });
+  }
 
-//   return plainUser;
-// };
+  return plainUser;
+};

@@ -15,16 +15,16 @@ const Lapuinfo = ({ registrationNumber }) => {
   const [loading, setLoading] = useState(true);
   const [hover, setHover] = useState(false);
   const [leetcodeProfile, setLeetcodeProfile] = useState(null);
-  // const [leetcodeusername, setleetcodeusername] = useState(null);
-  // const { courses, errorr } = useCourses(registrationNumber);
+
   const [course, setcourse] = useState(null);
   const fetchProfileData = async () => {
     try {
       setLoading(true);
       const data = await getProfileByRegistrationNumber(registrationNumber);
+
       const courses = await GetCourses(registrationNumber);
       setcourse(courses);
-      // console.log("Teri maa", courses);
+
       setProfileData(data);
       console.log(data.user.leetcode_username);
       if (data.user.leetcode_username) {
