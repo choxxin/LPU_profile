@@ -8,6 +8,7 @@ import { handleleetcodeprofile, GetCourses } from "@/app/api/umsinfo";
 import useCourses from "../../my-app/hooks/GetCourses";
 import toast from "react-hot-toast";
 import useUserStore from "@/store/useUserStore";
+import MessageContainer from "./chatting/Message_con";
 const Lapuinfo = ({ registrationNumber }) => {
   const { themetop } = useUserStore();
   const [profileData, setProfileData] = useState(null);
@@ -155,6 +156,7 @@ const Lapuinfo = ({ registrationNumber }) => {
           <div>
             <CourseList courses={course} />
           </div>
+          <MessageContainer />
         </div>
       ) : (
         <div className="min-h-32 w-full border-2 border-black">
