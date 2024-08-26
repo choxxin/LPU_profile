@@ -4,6 +4,7 @@ import { persist } from "zustand/middleware";
 const useUserStore = create(
   persist(
     (set) => ({
+      id: "",
       registrationNumber: "",
       pass: "",
       cook: "",
@@ -21,6 +22,7 @@ const useUserStore = create(
       setCook: (cook) => set({ cook }),
       setThemetop: (themetop) => set({ themetop }),
       setThemedown: (themedown) => set({ themedown }),
+      setId: (id) => set({ id }),
     }),
     {
       name: "user-storage",

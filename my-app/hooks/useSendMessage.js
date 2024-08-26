@@ -1,14 +1,15 @@
 import React from "react";
-import useConversation from "../zustamd/useConversations";
+import useConversation from "../../my-app/zustand/useconservation";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import useUserStore from "../../my-app/store/useUserStore";
 function useSendMessage() {
   const [Loading, setLoading] = useState(false);
   const { messages, setMessages, selectedConversation } = useConversation();
-
+  const { id } = useUserStore();
   const sendMessage = async (message) => {
     setLoading(true);
-    const normalchat = `${process.env.BASE_URL}/api/messages/send/${selectedConversation._id}`;
+    const normalchat = `/api/messages/send/${selectedConversation}`;
     // const groupchat = "/api/messages/groupsend";
     try {
       let res;
@@ -18,7 +19,7 @@ function useSendMessage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message }),
+        body: JSON.stringify({ message, senderId: id }),
       });
 
       const data = await res.json();

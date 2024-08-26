@@ -9,7 +9,7 @@ import useCourses from "../../my-app/hooks/GetCourses";
 import toast from "react-hot-toast";
 import useUserStore from "@/store/useUserStore";
 import MessageContainer from "./chatting/Message_con";
-const Lapuinfo = ({ registrationNumber }) => {
+const Lapuinfo = ({ registrationNumber, user_id }) => {
   const { themetop } = useUserStore();
   const [profileData, setProfileData] = useState(null);
   const [error, setError] = useState(null);

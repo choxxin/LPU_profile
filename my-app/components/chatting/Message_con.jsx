@@ -1,21 +1,21 @@
 import React from "react";
 import { useEffect } from "react";
-
+import useConversation from "../../zustand/useconservation";
 import { MdDelete } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
-// import Messages from "./Messages";
+import Messages from "../../components/chatting/Messages";
 // import "../../../../src/index.css";
 
-// import MessageInput from "./MessageInput";
+import MessageInput from "./MessageInput";
 // import usedeletemessage from "../../../hooks/usedeletemessage";
 
 const MessageContainer = () => {
-  //   const { selectedConversation, setSelectedConversation } = useConversation();
-  //   const { Spinner, deletemessage } = usedeletemessage();
-  //   useEffect(() => {
-  //     // cleanup function (unmounts)
-  //     return () => setSelectedConversation(null);
-  //   }, [setSelectedConversation]);
+  const { selectedConversation, setSelectedConversation } = useConversation();
+  // const { Spinner, deletemessage } = usedeletemessage();
+  useEffect(() => {
+    // cleanup function (unmounts)
+    return () => setSelectedConversation(null);
+  }, [setSelectedConversation]);
   return (
     <div className="md:min-w-[550px]   flex flex-col " id="mc">
       {/* {!selectedConversation ? (
@@ -24,28 +24,28 @@ const MessageContainer = () => {
       <>
         {/* Header */}
         <div className="bg-slate-500 px-4 py-2 mb-2  flex">
-          {/* <div className="flex flex-col"></div> */}
+          <div className="flex flex-col"></div>
           <span className="label-text">To:</span>{" "}
-          {/* <span className="text-gray-900 font-bold">
-              {selectedConversation._id === "meow"
-                ? "Everyone"
-                : selectedConversation.fullName}
-            </span> */}
+          <span className="text-gray-900 font-bold">
+            {/* {selectedConversation._id === "meow"
+              ? "Everyone"
+              : selectedConversation.fullName} */}
+          </span>
           <span className="ml-5 flex">
-            {/* {!Spinner ? ( */}
-            <MdDelete
-              className="h-6 w-6 text-gray-900 hover:bg-white"
-              // onClick={deletemessage}
-            />
-            {/* ) : ( */}
-            {/* <span className="loading loading-spinner text-info"></span> */}
-            {/* )} */}
+            {/* {!Spinner ? (
+                <MdDelete
+                  className="h-6 w-6 text-gray-900 hover:bg-white"
+                  // onClick={deletemessage}
+                />
+              ) : (
+                <span className="loading loading-spinner text-info"></span>
+              )} */}
             {/* <span className="ml-2" onClick={deletemessage}> Delete All chat</span> */}
           </span>
         </div>
 
-        {/* <Messages />
-          <MessageInput /> */}
+        <Messages />
+        <MessageInput />
       </>
       {/* )} */}
     </div>
@@ -55,7 +55,7 @@ const MessageContainer = () => {
 export default MessageContainer;
 
 const NoChatSelected = () => {
-  const { authUser } = useAuthContext();
+  // const { authUser } = useAuthContext();
   return (
     <div className="flex items-center justify-center w-full h-full">
       <div className="mockup-phone">
@@ -80,7 +80,7 @@ const NoChatSelected = () => {
                     </div>
                   </h1>
                 </div>{" "}
-                {authUser.fullName} ❄
+                {/* {authUser.fullName} ❄ */}
               </p>
               <p>Select a chat to start messaging</p>
               <TiMessages className="text-3xl md:text-6xl text-center text-gray-600" />

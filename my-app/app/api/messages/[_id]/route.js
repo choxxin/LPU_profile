@@ -10,6 +10,8 @@ export async function POST(request) {
 
     const url = new URL(request.url);
     const receiverId = url.pathname.split("/").pop();
+    console.log("Sender ID:", senderId);
+    console.log("Receiver ID:", receiverId);
 
     if (!senderId || !receiverId) {
       return new Response(JSON.stringify({ error: "Sender ID is required" }), {

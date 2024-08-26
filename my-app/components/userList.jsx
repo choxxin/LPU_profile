@@ -2,8 +2,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import UserProfile from "./sidebar";
-
+import useConversation from "@/zustand/useconservation";
 const UserList = ({ onSelectUser, selectedUser }) => {
+  const { setSelectedConversation } = useConversation();
   const [users, setUsers] = useState([]);
   const [Loading, setLoading] = useState(false);
   // console.log("users", users);
@@ -43,7 +44,12 @@ const UserList = ({ onSelectUser, selectedUser }) => {
       ) : (
         <div className=" ml-6  gap-4 sm:grid-cols-2 lg:grid-cols-3 flex flex-col bg-gray-300 w-80 min-w-52 min-h-16 dark:bg-slate-600 ">
           {users.map((user) => (
-            <div key={user._id} onClick={() => onSelectUser(user)}>
+            <div
+              key={user._id}
+              onClick={() => {
+                onSelectUser(user), setSelectedConversation(user._id);
+              }}
+            >
               <UserProfile
                 key={user._id}
                 name={user.name}
