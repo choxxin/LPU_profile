@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { AiFillMessage } from "react-icons/ai";
 import CourseList from "./courseList";
 import { getProfileByRegistrationNumber } from "@/app/api/umsinfo";
 import Leetcode from "./leetcode";
@@ -107,6 +108,9 @@ const Lapuinfo = ({ registrationNumber, user_id }) => {
             <div className="text-xl mt-7 text-semibold text-gray-600 dark:text-gray-300">
               <p>Reg No:{profileData.user.registrationNumber}</p>
             </div>
+            <div className="flex justify-center  h-14">
+              <Drawercomp />
+            </div>
           </div>
           <div className="flex gap-5 mt-6">
             <div
@@ -156,9 +160,6 @@ const Lapuinfo = ({ registrationNumber, user_id }) => {
           </div>
           <div>
             <CourseList courses={course} />
-          </div>
-          <div className="flex justify-center">
-            <Drawercomp />
           </div>
         </div>
       ) : (
