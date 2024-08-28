@@ -3,21 +3,29 @@ import useConversation from "../zustand/useconservation";
 import toast from "react-hot-toast";
 import useUserStore from "@/store/useUserStore";
 function useGetMessages() {
-  const [loading, setLoading] = useState(false); // Corrected to lowercase 'loading'
-  const { messages, setMessages, selectedConversation } = useConversation();
+  const [loading, setLoading] = useState(false);
+  const {
+    messages,
+    setMessages,
+    selectedConversation,
+    setSelectedConversation,
+  } = useConversation();
   const { id } = useUserStore();
   useEffect(() => {
     const getMessage = async () => {
       setLoading(true);
 
       try {
-        const response = await fetch(`/api/messages/${selectedConversation}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ senderId: id }),
-        });
+        const response = await fetch(
+          `/api/messages/${selectedConversation._id}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ senderId: id }),
+          }
+        );
 
         const data = await response.json();
         if (data.error) {
@@ -32,10 +40,10 @@ function useGetMessages() {
       }
     };
 
-    if (selectedConversation) getMessage(); // Check for selectedConversation directly
+    if (selectedConversation) getMessage();
   }, [selectedConversation, setMessages]);
 
-  return { messages, loading }; // Corrected to lowercase 'loading'
+  return { messages, loading };
 }
 
 export default useGetMessages;

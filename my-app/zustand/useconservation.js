@@ -2,8 +2,10 @@ import { create } from "zustand";
 
 const useConversation = create((set) => ({
   selectedConversation: null,
+  selectedConversationdp: "",
   setSelectedConversation: (selectedConversation) =>
     set({ selectedConversation }),
+  setSelectedConversationdp: (dp) => set({ dp }),
   messages: [],
   setMessages: (messages) => set({ messages }),
   deletechat: async () => {

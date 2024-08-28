@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import UserProfile from "./sidebar";
 import useConversation from "@/zustand/useconservation";
+
 const UserList = ({ onSelectUser, selectedUser }) => {
-  const { setSelectedConversation } = useConversation();
+  const { setSelectedConversation, setSelectedConversationdp } =
+    useConversation();
   const [users, setUsers] = useState([]);
   const [Loading, setLoading] = useState(false);
   // console.log("users", users);
@@ -47,7 +49,9 @@ const UserList = ({ onSelectUser, selectedUser }) => {
             <div
               key={user._id}
               onClick={() => {
-                onSelectUser(user), setSelectedConversation(user._id);
+                onSelectUser(user);
+                setSelectedConversation(user);
+                setSelectedConversationdp(user.profile_image);
               }}
             >
               <UserProfile

@@ -1,31 +1,33 @@
-import React from "react";
-import useConversation from "../../my-app/zustand/useconservation";
+import React, { useState } from "react";
+import useConversation from "../zustand/useconservation";
 import toast from "react-hot-toast";
-import { useState } from "react";
-import useUserStore from "../../my-app/store/useUserStore";
+import useUserStore from "@/store/useUserStore";
+
 function useSendMessage() {
-  const [Loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { messages, setMessages, selectedConversation } = useConversation();
   const { id } = useUserStore();
+
   const sendMessage = async (message) => {
     setLoading(true);
-    const normalchat = `/api/messages/send/${selectedConversation}`;
-    // const groupchat = "/api/messages/groupsend";
+
     try {
-      let res;
+      const response = await fetch(
+        `/api/messages/send/${selectedConversation._id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ senderId: id, message }),
+        }
+      );
 
-      res = await fetch(normalchat, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message, senderId: id }),
-      });
-
-      const data = await res.json();
+      const data = await response.json();
       if (data.error) {
         throw new Error(data.error);
       }
+
       setMessages([...messages, data]);
     } catch (error) {
       toast.error(error.message);
@@ -33,7 +35,8 @@ function useSendMessage() {
       setLoading(false);
     }
   };
-  return { sendMessage, Loading };
+
+  return { sendMessage, loading };
 }
 
 export default useSendMessage;

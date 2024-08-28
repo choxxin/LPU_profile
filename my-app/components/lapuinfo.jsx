@@ -9,6 +9,7 @@ import useCourses from "../../my-app/hooks/GetCourses";
 import toast from "react-hot-toast";
 import useUserStore from "@/store/useUserStore";
 import MessageContainer from "./chatting/Message_con";
+import Drawercomp from "./Drawercomp";
 const Lapuinfo = ({ registrationNumber, user_id }) => {
   const { themetop } = useUserStore();
   const [profileData, setProfileData] = useState(null);
@@ -156,7 +157,9 @@ const Lapuinfo = ({ registrationNumber, user_id }) => {
           <div>
             <CourseList courses={course} />
           </div>
-          <MessageContainer />
+          <div className="flex justify-center">
+            <Drawercomp />
+          </div>
         </div>
       ) : (
         <div className="min-h-32 w-full border-2 border-black">
