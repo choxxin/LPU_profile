@@ -20,13 +20,16 @@ import toast from "react-hot-toast";
 import UserList from "@/components/userList";
 import Lapuinfo from "@/components/lapuinfo";
 import Announcements from "@/components/Announcements";
+import Posts from "@/components/Posts/Posts"; // Assuming you have a component for posts
 import { Router } from "next/router";
 
 export default function Home() {
   const [selectedUser, setSelectedUser] = useState(null);
+  const [activeContent, setActiveContent] = useState("profile"); // State to manage active content
   const { registrationNumber, dp, name } = useUserStore();
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
+
   const onLogout = async () => {
     try {
       const response = await deleteUserAndProfile(registrationNumber);
@@ -42,14 +45,15 @@ export default function Home() {
       toast.error("Error logging out");
     }
   };
+
   useEffect(() => {
     // This will set `isClient` to true only after the component has mounted
     setIsClient(true);
   }, []);
+
   return (
     <div className="flex flex-col h-screen">
       {/* Navbar */}
-      {/* <nav className="bg-blue-600 text-white p-4" */}
       <div className="navbar bg-slate-300 dark:bg-slate-800 min-h-20">
         <div className="navbar-start">
           <div className="dropdown">
@@ -88,7 +92,7 @@ export default function Home() {
                 </ul>
               </li>
               <li>
-                <a>Item 3</a>
+                <a onClick={() => setActiveContent("posts")}>Item 3</a>
               </li>
             </ul>
           </div>
@@ -104,36 +108,31 @@ export default function Home() {
         <div className="navbar-center hidden lg:flex dark:text-white">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <Link href="/announcements">Nav1</Link>
+              <p onClick={() => setActiveContent("profile")}>User</p>
             </li>
             <li>
-              <details className="group ">
+              <details className="group">
                 <summary className="cursor-pointer select-none hover:text-blue-500">
                   Announcements
                 </summary>
-                <div
-                  className="absolute left-0 mt-2 min-w-[630px] min-h-96   shadow-lg h-full w-full bg-sky-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-50 border border-gray-900
-"
-                >
+                <div className="absolute left-0 mt-2 min-w-[630px] min-h-96 shadow-lg h-full w-full bg-sky-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-50 border border-gray-900">
                   <Announcements />
                 </div>
               </details>
             </li>
             <li>
-              <a>Item 3</a>
+              <a onClick={() => setActiveContent("posts")}>Posts</a>
             </li>
           </ul>
         </div>
         <div className="navbar-end">
-          {/* <a className="btn">Button</a> */}
-          <div className="mr-5 hover:bg-slate-400 w-12  rounded-2xl h-11">
-            {" "}
+          <div className="mr-5 hover:bg-slate-400 w-12 rounded-2xl h-11">
             <ThemeSwitcher />
           </div>
 
           <div className="dropdown dropdown-end flex gap-5">
             <div className="flex flex-col">
-              <span className="text-2xl text-slate-500  ">
+              <span className="text-2xl text-slate-500">
                 {isClient ? name : ""}
               </span>
               <p className="mt-2 text-xl font-semibold text-slate-400">
@@ -143,7 +142,7 @@ export default function Home() {
             <div
               tabIndex={0}
               role="button"
-              className="btn btn-ghost btn-circle avatar "
+              className="btn btn-ghost btn-circle avatar"
             >
               <div className="w-10 rounded-full">
                 <img
@@ -157,20 +156,15 @@ export default function Home() {
               className="menu menu-sm dropdown-content rounded-box z-[1] mt-3 w-52 p-2 shadow bg-slate-200"
             >
               <li>
-                {/* <a className="justify-between">
-                  Profile */}
                 <Link href="/myprofile" className="justify-between">
                   Profile <span className="badge">New</span>
                 </Link>
-
-                {/* </a> */}
               </li>
               <li>
                 <a>Settings</a>
               </li>
               <li>
-                {" "}
-                <button onClick={onLogout}>Logout</button>{" "}
+                <button onClick={onLogout}>Logout</button>
               </li>
             </ul>
           </div>
@@ -186,11 +180,16 @@ export default function Home() {
           />
         </div>
         <div className="lg:w-3/4 w-full flex-grow p-4 dark:bg-slate-500">
-          {selectedUser ? (
+          {activeContent === "profile" && selectedUser ? (
             <Lapuinfo registrationNumber={selectedUser.registrationNumber} />
+          ) : activeContent === "posts" ? (
+            <div className="text-center text-gray-600 dark:text-gray-200">
+              <Posts />
+            </div>
           ) : (
-            <div className="text-center text-gray-600   dark:text-gray-200">
-              Select a user to view their profile.
+            <div className="text-center text-gray-600 dark:text-gray-200">
+              Select a user to view their profile or click "Item 3" to view
+              posts.
             </div>
           )}
         </div>

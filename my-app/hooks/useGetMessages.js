@@ -4,12 +4,7 @@ import toast from "react-hot-toast";
 import useUserStore from "@/store/useUserStore";
 function useGetMessages() {
   const [loading, setLoading] = useState(false);
-  const {
-    messages,
-    setMessages,
-    selectedConversation,
-    setSelectedConversation,
-  } = useConversation();
+  const { messages, setMessages, selectedConversation } = useConversation();
   const { id } = useUserStore();
   useEffect(() => {
     const getMessage = async () => {

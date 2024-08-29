@@ -24,6 +24,7 @@ export async function POST(request) {
       isGroupChat: false,
     }).populate("messages");
     console.log("hello");
+
     if (!conversation) {
       return new Response(JSON.stringify([]), { status: 200 });
     }

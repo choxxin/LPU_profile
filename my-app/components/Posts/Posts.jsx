@@ -1,0 +1,73 @@
+// components/Posts.jsx
+
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+const Posts = () => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get("/api/posts"); // Adjust the URL to your API endpoint
+        setPosts(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  if (loading)
+    return (
+      <div>
+        <span className="loading loading-bars loading-[490px]"></span>
+      </div>
+    );
+  if (error) return <div>Error: {error}</div>;
+
+  return (
+    <div className="posts-container  ">
+      <h2 className="text-xl font-bold mb-4">Posts</h2>
+      <div className="flex flex-wrap gap-20 justify-center ">
+        {posts.length === 0 ? (
+          <li>No posts available.</li>
+        ) : (
+          posts.map((post) => (
+            <div key={post._id} className="mb-4 ">
+              <div className="card post w-96 shadow-xl">
+                <div className="flex gap-10">
+                  <div className="avatar">
+                    <div className="ring-primary ring-offset-base-100 w-20 rounded-full ring ring-offset-2">
+                      <img src={post.creator.profile_image} />
+                    </div>
+                  </div>
+                  <div className="text-xl">
+                    <p className="text-white font-bold">{post.creator.name}</p>
+                    <p className="text-gray-300">
+                      {post.creator.registrationNumber}
+                    </p>
+                  </div>
+                </div>
+                <div className="card-body">
+                  <h2 className="card-title text-white">{post.tag}</h2>
+                  <p className="text-gray-200">{post.prompt}</p>
+                  <div className="card-actions justify-end">
+                    <button className="btn btn-primary">Comments</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Posts;
