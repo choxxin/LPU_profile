@@ -24,27 +24,42 @@ export default function CreatePostForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <textarea
-        name="prompt"
-        value={formData.prompt}
-        onChange={handleChange}
-        placeholder="Enter your prompt"
-        required
-      />
-      <input
-        type="text"
-        name="tag"
-        value={formData.tag}
-        onChange={handleChange}
-        placeholder="Enter tags"
-        required
-      />
-      <button type="submit" disabled={loading}>
-        {loading ? "Creating..." : "Create Post"}
-      </button>
-      {error && <p>Error: {error}</p>}
-      {success && <p>Post created successfully!</p>}
-    </form>
+    <div className="max-w-lg mx-auto p-4 bg-white rounded-lg shadow-md">
+      <h2 className="text-xl font-bold mb-4 text-center">Create New Post</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <textarea
+          name="prompt"
+          value={formData.prompt}
+          onChange={handleChange}
+          placeholder="Enter your prompt"
+          required
+          className=" text-white w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <input
+          type="text"
+          name="tag"
+          value={formData.tag}
+          onChange={handleChange}
+          placeholder="Enter Title"
+          required
+          className=" text-white w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          type="submit"
+          disabled={loading}
+          className={`w-full py-2 rounded-lg text-white font-semibold ${
+            loading ? "bg-gray-500" : "bg-blue-500 hover:bg-blue-600"
+          } transition duration-300 ease-in-out`}
+        >
+          {loading ? "Creating..." : "Create Post"}
+        </button>
+        {error && <p className="text-red-500 text-center">Error: {error}</p>}
+        {success && (
+          <p className="text-green-500 text-center">
+            Post created successfully!
+          </p>
+        )}
+      </form>
+    </div>
   );
 }
