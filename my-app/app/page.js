@@ -188,7 +188,7 @@ export default function Home() {
             </div>
           ) : (
             <div className="text-center text-gray-600 dark:text-gray-200">
-              Select a user to view their profile or click "Item 3" to view
+              Select a user to view their profile or click on Posts to view
               posts.
             </div>
           )}

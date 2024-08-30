@@ -13,8 +13,8 @@ export const POST = async (req, res) => {
     });
 
     await newPrompt.save();
-
-    return new Response(" create Prompt success", { status: 201 });
+    const message = "create Prompt success";
+    return new Response(JSON.stringify(message), { status: 201 });
   } catch (error) {
     return new Response(JSON.stringify(error), { status: 500 });
   }

@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Commentcomp from "../commentcomp";
+import { Createpost } from "../createpost";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -32,8 +34,18 @@ const Posts = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="posts-container  ">
-      <h2 className="text-xl font-bold mb-4">Posts</h2>
+    <div className="posts-container  bg-slate-300 dark:bg-slate-500">
+      <div className="flex justify-between gap-11">
+        <div>
+          {" "}
+          <p className="  font-bold mb-4 text-5xl">Posts </p>
+        </div>{" "}
+        <div>
+          {" "}
+          <Createpost />
+        </div>
+      </div>
+
       <div className="flex flex-wrap gap-20 justify-center ">
         {posts.length === 0 ? (
           <li>No posts available.</li>
@@ -58,7 +70,7 @@ const Posts = () => {
                   <h2 className="card-title text-white">{post.tag}</h2>
                   <p className="text-gray-200">{post.prompt}</p>
                   <div className="card-actions justify-end">
-                    <button className="btn btn-primary">Comments</button>
+                    <Commentcomp postId={post._id} />
                   </div>
                 </div>
               </div>
