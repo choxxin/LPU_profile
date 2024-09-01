@@ -1,10 +1,14 @@
 "use client";
 import { changethemeup } from "@/app/api/umsinfo";
+import { FaLinkedinIn } from "react-icons/fa";
 import useUserStore from "@/store/useUserStore";
 import { TbArrowsExchange } from "react-icons/tb";
 import { FaCheck } from "react-icons/fa";
 import { useEffect, useState } from "react";
+import { FaInstagram } from "react-icons/fa";
 import Subjectt from "@/components/graph/Subattendence";
+import { LuGithub } from "react-icons/lu";
+import { FaAddressBook } from "react-icons/fa";
 import {
   getProfileByRegistrationNumber,
   updateUserAvatar,
@@ -14,6 +18,7 @@ import { useRouter } from "next/navigation";
 import NOLeetcode from "../../components/noleetcode";
 import { handleleetcodeprofile } from "@/app/api/umsinfo";
 import toast from "react-hot-toast";
+import LinkedinDrawer from "@/components/LinkedinDrawer";
 const MyProfile = () => {
   const router = useRouter();
   const [defaultbutton, setdefaultbutton] = useState(false);
@@ -70,7 +75,7 @@ const MyProfile = () => {
     };
 
     if (registrationNumber) {
-      themechange(); // Call themechange only if registrationNumber is set
+      themechange();
     }
   }, [color]);
 
@@ -167,11 +172,66 @@ const MyProfile = () => {
               </div>
             </div>
 
-            <div className="text-5xl text-bold text-gray-800 ">
+            <div className="text-5xl font-bold text-gray-800">
               <p>{profileData.user.name}</p>
+
+              {profileData.user.linkedin &&
+              profileData.user.linkedin.trim() !== "" ? (
+                <a
+                  href={profileData.user.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 text-lg mt-2 block"
+                >
+                  <FaLinkedinIn className="w-7 h-7" />
+                </a>
+              ) : (
+                <div className="text-red-500 text-lg mt-2">
+                  LinkedIn profile not provided
+                </div>
+              )}
+
+              {profileData.user.github &&
+              profileData.user.github.trim() !== "" ? (
+                <a
+                  href={profileData.user.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 text-lg mt-2 block"
+                >
+                  <LuGithub className="w-7 h-7 text-black" />
+                </a>
+              ) : (
+                <div className="text-red-500 text-lg mt-2">
+                  Github profile not provided
+                </div>
+              )}
+
+              {profileData.user.instagram &&
+              profileData.user.instagram.trim() !== "" ? (
+                <a
+                  href={profileData.user.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 text-lg mt-2 block"
+                >
+                  <FaInstagram className="w-7 h-7 text-pink-500" />
+                </a>
+              ) : (
+                <div className="text-red-500 text-lg mt-2">
+                  Instagram profile not provided
+                </div>
+              )}
             </div>
+
             <div className="text-xl mt-7 text-semibold text-gray-600">
               <p>Reg No:{profileData.user.registrationNumber}</p>
+              <LinkedinDrawer
+                senderId={profileData.user._id}
+                linkedin={profileData.user.linkedin}
+                instagram={profileData.user.instagram}
+                github={profileData.user.github}
+              />
             </div>
 
             <button

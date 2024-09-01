@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Profile from "./profile";
+
 const { Schema, model, models } = mongoose;
 
 const UserSchema = new Schema({
@@ -31,6 +31,15 @@ const UserSchema = new Schema({
   themedown: {
     type: String, // Add this field if
     default: "gradient-profile",
+  },
+  linkedin: {
+    type: String,
+  },
+  instagram: {
+    type: String,
+  },
+  github: {
+    type: String,
   },
 });
 

@@ -1,10 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
+import { FaInstagram } from "react-icons/fa";
+import { FaLinkedinIn } from "react-icons/fa";
 import { AiFillMessage } from "react-icons/ai";
 import CourseList from "./courseList";
 import { getProfileByRegistrationNumber } from "@/app/api/umsinfo";
 import Leetcode from "./leetcode";
 import NOLeetcode from "./noleetcode";
+import { LuGithub } from "react-icons/lu";
 import { handleleetcodeprofile, GetCourses } from "@/app/api/umsinfo";
 import useCourses from "../../my-app/hooks/GetCourses";
 import toast from "react-hot-toast";
@@ -104,6 +107,45 @@ const Lapuinfo = ({ registrationNumber, user_id }) => {
 
             <div className="text-5xl text-bold  mt-5 dark:text-white font-bold gblack">
               <p>{profileData.user.name}</p>
+              {profileData.user.linkedin &&
+              profileData.user.linkedin.trim() !== "" ? (
+                <a
+                  href={profileData.user.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 text-lg mt-2 block"
+                >
+                  <FaLinkedinIn className="w-7 h-7" />
+                </a>
+              ) : (
+                <div className="text-red-500 text-lg mt-2"></div>
+              )}
+              {profileData.user.github &&
+              profileData.user.github.trim() !== "" ? (
+                <a
+                  href={profileData.user.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 text-lg mt-2 block"
+                >
+                  <LuGithub className="w-7 h-7 text-black" />
+                </a>
+              ) : (
+                <div className="text-red-500 text-lg mt-2"></div>
+              )}
+              {profileData.user.instagram &&
+              profileData.user.instagram.trim() !== "" ? (
+                <a
+                  href={profileData.user.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 text-lg mt-2 block"
+                >
+                  <FaInstagram className="w-7 h-7 text-pink-500" />
+                </a>
+              ) : (
+                <div className="text-red-500 text-lg mt-2"></div>
+              )}
             </div>
             <div className="text-xl mt-7 text-semibold text-gray-600 dark:text-gray-300">
               <p>Reg No:{profileData.user.registrationNumber}</p>
