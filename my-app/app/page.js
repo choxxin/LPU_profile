@@ -122,7 +122,7 @@ export default function Home() {
                 <summary className="cursor-pointer select-none hover:text-blue-500">
                   Announcements
                 </summary>
-                <div className="absolute left-0 mt-2 min-w-[630px] min-h-96 shadow-lg h-full w-full bg-sky-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-50 border border-gray-900">
+                <div className="absolute left-0 mt-2 min-w-[630px] min-h-96 shadow-lg h-full w-full text-white bg-black rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border border-gray-900 z-50 dark:text-white">
                   <Announcements />
                 </div>
               </details>

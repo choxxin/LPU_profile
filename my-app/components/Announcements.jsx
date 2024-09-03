@@ -52,7 +52,7 @@ const Announcements = () => {
     <div>
       <h2 className="text-xl font-bold mb-4">Announcements</h2>
       <div
-        className="overflow-y-scroll h-80 p-4 border border-gray-300 rounded-md"
+        className="overflow-y-scroll h-80 p-4   rounded-md  "
         style={{ maxHeight: "400px" }}
       >
         {displayedAnnouncements.length === 0 ? (
@@ -61,7 +61,7 @@ const Announcements = () => {
           displayedAnnouncements.map((announcement) => (
             <div
               key={announcement.announcement_id}
-              className="mb-4 p-2 border-b border-gray-200"
+              className="mb-4 p-2 border-b border-t border-gray-200"
             >
               <h3 className="font-bold text-lg">{announcement.subject}</h3>
               <p>Date: {announcement.date}</p>

@@ -68,7 +68,9 @@ const Posts = () => {
                 </div>
                 <div className="card-body">
                   <h2 className="card-title text-white">{post.tag}</h2>
-                  <p className="text-gray-200">{post.prompt}</p>
+                  <p className="text-gray-200 max-h-64 overflow-scroll overflow-x-hidden">
+                    {post.prompt}
+                  </p>
                   <div className="card-actions justify-end">
                     <Commentcomp postId={post._id} />
                   </div>
