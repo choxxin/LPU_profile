@@ -3,10 +3,17 @@ import Prompt from "@/models/prompt";
 
 export const GET = async (req) => {
   try {
-    connectToDB();
+    await connectToDB();
     const prompts = await Prompt.find().populate("creator");
-    return new Response(JSON.stringify(prompts), { status: 200 });
+    const reversedPrompts = prompts.reverse(); // Reverse the order of the prompts
+    return new Response(JSON.stringify(reversedPrompts), { status: 200 });
   } catch (error) {
-    return new Response(JSON.stringify(error), { status: 500 });
+    return new Response(
+      JSON.stringify({
+        error: "Failed to fetch prompts",
+        details: error.message,
+      }),
+      { status: 500 }
+    );
   }
 };

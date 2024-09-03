@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import useUserStore from "@/store/useUserStore";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Subjectt from "@/components/graph/Subattendence";
 import ThemeSwitcher from "@/components/NightButton";
 import {
   loginUser,
@@ -108,7 +109,12 @@ export default function Home() {
         <div className="navbar-center hidden lg:flex dark:text-white">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <p onClick={() => setActiveContent("profile")}>User</p>
+              <p
+                className={activeContent === "profile" ? "bg-sky-400" : ""}
+                onClick={() => setActiveContent("profile")}
+              >
+                User
+              </p>
             </li>
             <li>
               <details className="group">
@@ -121,7 +127,20 @@ export default function Home() {
               </details>
             </li>
             <li>
-              <a onClick={() => setActiveContent("posts")}>Posts</a>
+              <a
+                className={activeContent === "posts" ? "bg-sky-400" : ""}
+                onClick={() => setActiveContent("posts")}
+              >
+                Posts
+              </a>
+            </li>
+            <li>
+              <a
+                className={activeContent === "status" ? "bg-sky-400" : ""}
+                onClick={() => setActiveContent("status")}
+              >
+                Status
+              </a>
             </li>
           </ul>
         </div>
@@ -186,10 +205,14 @@ export default function Home() {
             <div className="text-center text-gray-600 dark:text-gray-200">
               <Posts />
             </div>
+          ) : activeContent === "status" ? (
+            <div className="text-center text-gray-600 dark:text-gray-200">
+              <Subjectt />
+            </div>
           ) : (
             <div className="text-center text-gray-600 dark:text-gray-200">
-              Select a user to view their profile or click on Posts to view
-              posts.
+              Select a user to view their profile, click on Posts to view posts,
+              or check the status.
             </div>
           )}
         </div>

@@ -19,7 +19,7 @@ export default function Comments({ postId }) {
   }, [messages]);
 
   return (
-    <div className="px-4 flex-1 overflow-auto">
+    <div className="px-4 flex-1  max-h-[400px] overflow-scroll">
       {loading && (
         <div className="flex w-52 flex-col gap-4">
           <div className="skeleton h-32 w-full"></div>

@@ -1,7 +1,7 @@
 import React from "react";
 import { BsSend } from "react-icons/bs";
 
-// import buttonsound from "../../../assets/Sound/Income.mp3";
+// import buttonsound from "../../assets/Sound/Income.mp3";
 
 import { useState } from "react";
 import useSendComment from "@/hooks/useSendComment";
@@ -11,8 +11,8 @@ const CommentInput = ({ postId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!message) return;
-    // const soundincome = new Audio(buttonsound);
-    // soundincome.play();
+    const sound = new Audio("/assets/Sound/Income.mp3");
+    sound.play();
     await sendMessage(message);
     setmessage("");
   };
@@ -22,7 +22,7 @@ const CommentInput = ({ postId }) => {
         <input
           type="text"
           className="border text-sm rounded-lg block w-full p-2.5  bg-gray-700 border-gray-600 text-white"
-          placeholder="Send a message"
+          placeholder="Make a comment"
           value={message}
           onChange={(e) => setmessage(e.target.value)}
         />

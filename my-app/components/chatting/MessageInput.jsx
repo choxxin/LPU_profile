@@ -1,7 +1,6 @@
 import React from "react";
 import { BsSend } from "react-icons/bs";
 import useSendMessage from "../../hooks/useSendMessage";
-// import buttonsound from "../../../assets/Sound/Income.mp3";
 
 import { useState } from "react";
 const MessageInput = () => {
@@ -10,8 +9,8 @@ const MessageInput = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!message) return;
-    // const soundincome = new Audio(buttonsound);
-    // soundincome.play();
+    const sound = new Audio("/assets/Sound/Income.mp3");
+    sound.play();
     await sendMessage(message);
     setmessage("");
   };

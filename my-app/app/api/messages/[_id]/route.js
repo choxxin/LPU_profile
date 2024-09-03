@@ -1,6 +1,6 @@
 import { connectToDB } from "@/utils/database";
 import Conversation from "@/models/Conversation";
-
+import Message from "@/models/Message";
 export async function POST(request) {
   try {
     await connectToDB();
@@ -33,7 +33,7 @@ export async function POST(request) {
     return new Response(JSON.stringify(messages), { status: 200 });
   } catch (err) {
     return new Response(
-      JSON.stringify({ error: "Error in receive Message controller" }),
+      JSON.stringify({ error: "Error in receive Message controller", err }),
       { status: 500 }
     );
   }

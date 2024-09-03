@@ -15,7 +15,7 @@ import { AiFillMessage } from "react-icons/ai";
 export default function Commentcomp({ postId }) {
   return (
     <>
-      <Drawer className="w-80 min-h-96">
+      <Drawer className="text-white">
         <DrawerTrigger>
           <button className="btn bg-slate-700 rounded-3xl text-white text-3xl hover:text-slate-800">
             <AiFillMessage />
