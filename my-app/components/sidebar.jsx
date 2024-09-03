@@ -3,7 +3,7 @@ import React from "react";
 const UserProfile = ({ name, avatarUrl, regNo, selected }) => {
   return (
     <div
-      className={` cursor-pointer flex items-center p-4 shadow min-w-52 min-h-16 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm border ${
+      className={` cursor-pointer flex items-center p-4 shadow min-w-52 min-h-16 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm border hover:bg-sky-500 dark:hover:bg-slate-800 ${
         selected
           ? "bg-blue-500 text-white"
           : "bg-gray-400 bg-opacity-20 border-gray-100"

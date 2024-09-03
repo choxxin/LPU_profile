@@ -41,6 +41,10 @@ const UserSchema = new Schema({
   github: {
     type: String,
   },
+  hide: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const User = models.User || model("User", UserSchema);

@@ -23,6 +23,7 @@ import Lapuinfo from "@/components/lapuinfo";
 import Announcements from "@/components/Announcements";
 import Posts from "@/components/Posts/Posts"; // Assuming you have a component for posts
 import { Router } from "next/router";
+import Leaderboard from "@/components/LeaderBoard/leaderboard";
 
 export default function Home() {
   const [selectedUser, setSelectedUser] = useState(null);
@@ -142,6 +143,14 @@ export default function Home() {
                 Status
               </a>
             </li>
+            <li>
+              <a
+                className={activeContent === "leader" ? "bg-sky-400" : ""}
+                onClick={() => setActiveContent("leader")}
+              >
+                LeaderBoard
+              </a>
+            </li>
           </ul>
         </div>
         <div className="navbar-end">
@@ -208,6 +217,10 @@ export default function Home() {
           ) : activeContent === "status" ? (
             <div className="text-center text-gray-600 dark:text-gray-200">
               <Subjectt />
+            </div>
+          ) : activeContent === "leader" ? (
+            <div className="text-center text-gray-600 dark:text-gray-200">
+              <Leaderboard />
             </div>
           ) : (
             <div className="text-center text-gray-600 dark:text-gray-200">

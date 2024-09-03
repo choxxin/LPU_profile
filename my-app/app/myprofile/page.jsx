@@ -19,6 +19,7 @@ import NOLeetcode from "../../components/noleetcode";
 import { handleleetcodeprofile } from "@/app/api/umsinfo";
 import toast from "react-hot-toast";
 import LinkedinDrawer from "@/components/LinkedinDrawer";
+import ToggleHideButton from "@/components/Toogle/Togglebutton";
 const MyProfile = () => {
   const router = useRouter();
   const [defaultbutton, setdefaultbutton] = useState(false);
@@ -37,6 +38,7 @@ const MyProfile = () => {
   const [Loadingg, setLoadingg] = useState(false);
   const [ImageLoad, setImageLoad] = useState(true);
   const [color, SetColor] = useState(themetop);
+  const [hide, sethide] = useState(false);
   const changeanime = async (e) => {
     e.preventDefault();
     setdefaultbutton(true);
@@ -101,6 +103,7 @@ const MyProfile = () => {
       const data = await getProfileByRegistrationNumber(registrationNumber);
       setProfileData(data);
       SetColor(data.user.themetop);
+      sethide(data.user.hide);
       console.log(data.user.leetcode_username);
       if (data.user.leetcode_username) {
         const leetData = await handleleetcodeprofile(
@@ -300,21 +303,34 @@ const MyProfile = () => {
             </div>
           </div>
           <div className="flex gap-5 mt-6 ml-5">
-            <div
-              className="radial-progress text-pink-400 text-2xl ml-5 cgpa"
-              style={{
-                "--value": (profileData.cgpa / 10) * 100,
-                "--size": "12rem",
-                "--thickness": "1.5rem",
-              }}
-              role="progressbar"
-              onMouseEnter={() => setHover(true)}
-              onMouseLeave={() => setHover(false)}
-            >
-              {hover
-                ? `${((profileData.cgpa / 10) * 100).toFixed(1)}%`
-                : `CGPA: ${profileData.cgpa}`}
-            </div>
+            {hide ? (
+              <div
+                className="radial-progress text-pink-400 text-2xl ml-5 cgpa"
+                style={{
+                  "--value": 100,
+                  "--size": "12rem",
+                  "--thickness": "0.5rem",
+                }}
+              >
+                <p>Hidden</p>
+              </div>
+            ) : (
+              <div
+                className="radial-progress text-pink-400 text-2xl ml-5 cgpa"
+                style={{
+                  "--value": (profileData.cgpa / 10) * 100,
+                  "--size": "12rem",
+                  "--thickness": "1.5rem",
+                }}
+                role="progressbar"
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}
+              >
+                {hover
+                  ? `${((profileData.cgpa / 10) * 100).toFixed(1)}%`
+                  : `CGPA: ${profileData.cgpa}`}
+              </div>
+            )}
             <div>
               <div className="text-3xl font-bold mt-3 font-mono gsec">
                 <p>Section: {profileData.section}</p>
@@ -325,6 +341,9 @@ const MyProfile = () => {
                 <p>Roll Number: {profileData.roll_number}</p>
                 <p>Aggregate Attendance: {profileData.agg_attendance}%</p>
               </div>
+            </div>
+            <div>
+              <ToggleHideButton isHidden={hide} setIsHidden={sethide} />
             </div>
           </div>
 
