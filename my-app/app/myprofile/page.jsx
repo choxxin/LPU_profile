@@ -4,6 +4,7 @@ import { FaLinkedinIn } from "react-icons/fa";
 import useUserStore from "@/store/useUserStore";
 import { TbArrowsExchange } from "react-icons/tb";
 import { FaCheck } from "react-icons/fa";
+import { AiFillDelete } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { FaInstagram } from "react-icons/fa";
 import Subjectt from "@/components/graph/Subattendence";
@@ -17,14 +18,16 @@ import {
 import Leetcode from "../../components/leetcode";
 import { useRouter } from "next/navigation";
 import NOLeetcode from "../../components/noleetcode";
-import { handleleetcodeprofile } from "@/app/api/umsinfo";
+import { handleleetcodeprofile, deleteUserAndProfile } from "@/app/api/umsinfo";
 import toast from "react-hot-toast";
 import LinkedinDrawer from "@/components/LinkedinDrawer";
 import ToggleHideButton from "@/components/Toogle/Togglebutton";
+
 const MyProfile = () => {
   useAuthRedirect();
   const router = useRouter();
   const [defaultbutton, setdefaultbutton] = useState(false);
+
   const { registrationNumber, dp, setdp, setThemetop, themetop } =
     useUserStore();
   const [profileData, setProfileData] = useState(null);
@@ -129,6 +132,32 @@ const MyProfile = () => {
     }
   }, [registrationNumber]);
 
+  const DeleteHandler = async () => {
+    //alert
+    if (window.confirm("Are you sure you want to delete your profile?")) {
+      if (window.confirm("This process is irreversible. Are you sure?")) {
+        DeleteUser();
+      }
+    }
+  };
+  const DeleteUser = async () => {
+    //alert
+
+    try {
+      const response = await deleteUserAndProfile(registrationNumber);
+
+      if (response) {
+        toast.success("User deleted successfully");
+        router.push("/login"); // Redirect to home or login page after logout
+      } else {
+        toast.error("Error deleting user");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("Error logging out");
+    }
+  };
+
   //For fetching leetcode api
   // useEffect(() => {
   //   // Fetch the user data on mount
@@ -167,17 +196,16 @@ const MyProfile = () => {
 
   return (
     <>
-      <div className="avatar flex items-center "></div>
       {profileData ? (
-        <div className={`min-h-32 w-full ${color}`}>
-          <div className=" gap-5 flex ml-5">
-            <div className="avatar">
+        <div className={`min-h-32 w-full border-2 border-pink-300   ${color} `}>
+          <div className="flex flex-col lg:flex-row gap-5 ml-5">
+            <div className="avatar border-lime-300 border-2">
               <div className="mask mask-squircle w-44">
                 <img src={Inputs.avatar} onLoad={Loadhandler} />
               </div>
             </div>
 
-            <div className="text-5xl font-bold text-gray-800">
+            <div className="text-5xl font-bold text-gray-800 border-2 border-red-600 ">
               <p>{profileData.user.name}</p>
 
               {profileData.user.linkedin &&
@@ -229,7 +257,7 @@ const MyProfile = () => {
               )}
             </div>
 
-            <div className="text-xl mt-7 text-semibold text-gray-600">
+            <div className="text-xl mt-7 text-semibold text-gray-600 border-2 border-blue-500">
               <p>Reg No:{profileData.user.registrationNumber}</p>
               <LinkedinDrawer
                 senderId={profileData.user._id}
@@ -238,40 +266,41 @@ const MyProfile = () => {
                 github={profileData.user.github}
               />
             </div>
-
-            <button
-              className="btn btn-ghost ml-7 text-gray-800 border-2 border-gray-300 mt-7 h-20 bg-pink-200"
-              onClick={changeanime}
-              disabled={Loadingg}
-            >
-              {!Loadingg && ImageLoad ? (
-                <div>
-                  {" "}
-                  <TbArrowsExchange className="h-10 w-10" />
-                  <p>Change Avatar</p>
-                </div>
-              ) : (
-                <span className="loading loading-spinner"></span>
-              )}
-            </button>
-            <button
-              className={`btn btn-ghost ml-7 text-gray-800 border-2 border-gray-300 mt-7 h-20 ${
-                defaultbutton ? "bg-green-200" : "bg-red-400"
-              }`}
-              onClick={changeavatar}
-              disabled={Loadingg}
-            >
-              {!Loadingg && ImageLoad ? (
-                <div>
-                  {" "}
-                  <FaCheck className="h-10 w-10" />
-                  <p>Ok</p>
-                </div>
-              ) : (
-                <span className="loading loading-spinner"></span>
-              )}
-            </button>
-            <div className="  h-16 gap-7 justify-center min-w-52 flex items-center mt-7 ml-3">
+            <div className="border-2 border-black">
+              <button
+                className="btn btn-ghost ml-7 text-gray-800 border-2 border-gray-300 mt-7 h-20 bg-pink-200"
+                onClick={changeanime}
+                disabled={Loadingg}
+              >
+                {!Loadingg && ImageLoad ? (
+                  <div>
+                    {" "}
+                    <TbArrowsExchange className="h-10 w-10" />
+                    <p>Change Avatar</p>
+                  </div>
+                ) : (
+                  <span className="loading loading-spinner"></span>
+                )}
+              </button>
+              <button
+                className={`btn btn-ghost ml-7 text-gray-800 border-2 border-gray-300 mt-7 h-20 ${
+                  defaultbutton ? "bg-green-200" : "bg-red-400"
+                }`}
+                onClick={changeavatar}
+                disabled={Loadingg}
+              >
+                {!Loadingg && ImageLoad ? (
+                  <div>
+                    {" "}
+                    <FaCheck className="h-10 w-10" />
+                    <p>Ok</p>
+                  </div>
+                ) : (
+                  <span className="loading loading-spinner"></span>
+                )}
+              </button>
+            </div>
+            <div className="  h-16 gap-7 justify-center min-w-52 flex items-center mt-7 ml-3 border-2 border-cyan-600">
               <div
                 className={`border-2 border-white h-10 w-10 gradient-profile`}
                 onClick={() => {
@@ -304,7 +333,7 @@ const MyProfile = () => {
               ></div>
             </div>
           </div>
-          <div className="flex gap-5 mt-6 ml-5">
+          <div className="flex flex-col gap-5 mt-6 ml-5 lg:flex-row">
             {hide ? (
               <div
                 className="radial-progress text-pink-400 text-2xl ml-5 cgpa"
@@ -346,6 +375,13 @@ const MyProfile = () => {
             </div>
             <div>
               <ToggleHideButton isHidden={hide} setIsHidden={sethide} />
+            </div>
+            <div className="sm:ml-9">
+              <p> DELETE PROFILE</p>
+              <AiFillDelete
+                onClick={DeleteHandler}
+                className="w-10 h-10 text-red-800 hover:text-red-600"
+              />
             </div>
           </div>
 

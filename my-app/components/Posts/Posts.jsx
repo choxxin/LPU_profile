@@ -56,13 +56,29 @@ const Posts = () => {
                 <div className="flex gap-10">
                   <div className="avatar">
                     <div className="ring-primary ring-offset-base-100 w-20 rounded-full ring ring-offset-2">
-                      <img src={post.creator.profile_image} />
+                      <img
+                        src={
+                          post.creator?.profile_image
+                            ? post.creator?.profile_image
+                            : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                        }
+                      />
                     </div>
                   </div>
                   <div className="text-xl">
-                    <p className="text-white font-bold">{post.creator.name}</p>
+                    <p className="text-white font-bold">
+                      {post.creator?.name ? (
+                        post.creator?.name
+                      ) : (
+                        <span>Deleted</span>
+                      )}
+                    </p>
                     <p className="text-gray-300">
-                      {post.creator.registrationNumber}
+                      {post.creator?.registrationNumber ? (
+                        post.creator.registrationNumber
+                      ) : (
+                        <span></span>
+                      )}
                     </p>
                   </div>
                 </div>

@@ -100,7 +100,7 @@ const Lapuinfo = ({ registrationNumber, user_id }) => {
             profileData.user.themetop || "gradient-profile"
           }`}
         >
-          <div className="  gap-5 flex">
+          <div className="  gap-5 flex flex-col lg:flex-row ">
             <div className="avatar mt-5 ml-5">
               <div className="mask mask-squircle w-44">
                 <img src={profileData.user.profile_image} />
@@ -156,7 +156,7 @@ const Lapuinfo = ({ registrationNumber, user_id }) => {
               <Drawercomp />
             </div>
           </div>
-          <div className="flex gap-5 mt-6">
+          <div className="flex flex-col gap-5 mt-6 lg:flex-row">
             {hide ? (
               <div
                 className="radial-progress text-pink-400 text-2xl ml-5 cgpa"

@@ -34,21 +34,6 @@ export default function Home() {
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
-  const DeleteUser = async () => {
-    try {
-      const response = await deleteUserAndProfile(registrationNumber);
-
-      if (response) {
-        toast.success("User deleted successfully");
-        router.push("/login"); // Redirect to home or login page after logout
-      } else {
-        toast.error("Error deleting user");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      toast.error("Error logging out");
-    }
-  };
   const onLogout = async () => {
     localStorage.removeItem("token");
 
