@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Subjectt from "@/components/graph/Subattendence";
 import ThemeSwitcher from "@/components/NightButton";
+import useAuthRedirect from "@/utils/useAuthredirect";
 import {
   loginUser,
   getUserDetails,
@@ -26,13 +27,14 @@ import { Router } from "next/router";
 import Leaderboard from "@/components/LeaderBoard/leaderboard";
 
 export default function Home() {
+  useAuthRedirect();
   const [selectedUser, setSelectedUser] = useState(null);
   const [activeContent, setActiveContent] = useState("profile"); // State to manage active content
   const { registrationNumber, dp, name } = useUserStore();
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
-  const onLogout = async () => {
+  const DeleteUser = async () => {
     try {
       const response = await deleteUserAndProfile(registrationNumber);
 
@@ -46,6 +48,11 @@ export default function Home() {
       console.error("Error:", error);
       toast.error("Error logging out");
     }
+  };
+  const onLogout = async () => {
+    localStorage.removeItem("token");
+
+    router.push("/login");
   };
 
   useEffect(() => {

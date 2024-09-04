@@ -74,6 +74,8 @@ function Login() {
         console.log("Login successful without avatar:", loginData);
       }
       const cookie = loginData.cookie;
+      const token = loginData.token;
+      localStorage.setItem("token", token);
       // Store the cookie in the browser
       Cookies.set("session", cookie, { path: "/" });
       const meow = await getUserDetails(username, password, cookie);

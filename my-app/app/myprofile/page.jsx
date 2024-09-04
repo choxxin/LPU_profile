@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { FaInstagram } from "react-icons/fa";
 import Subjectt from "@/components/graph/Subattendence";
 import { LuGithub } from "react-icons/lu";
+import useAuthRedirect from "@/utils/useAuthredirect";
 import { FaAddressBook } from "react-icons/fa";
 import {
   getProfileByRegistrationNumber,
@@ -21,6 +22,7 @@ import toast from "react-hot-toast";
 import LinkedinDrawer from "@/components/LinkedinDrawer";
 import ToggleHideButton from "@/components/Toogle/Togglebutton";
 const MyProfile = () => {
+  useAuthRedirect();
   const router = useRouter();
   const [defaultbutton, setdefaultbutton] = useState(false);
   const { registrationNumber, dp, setdp, setThemetop, themetop } =

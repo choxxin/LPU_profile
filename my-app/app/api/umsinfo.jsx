@@ -1,5 +1,6 @@
 "use server";
 import axios from "axios";
+import jwt from "jsonwebtoken";
 import { connectToDB } from "../../utils/database";
 import User from "../../models/user";
 import Profile from "@/models/profile";
@@ -8,9 +9,11 @@ const API_BASE_URL =
   process.env.NEXT_PUBLIC_UMS_API_BASE_URL ||
   " http://localhost:8000/api/v1/user";
 
+const SECRET_KEY = process.env.JWT_SECRET;
 export const loginUser = async (reg_no, password, avatar) => {
   try {
     await connectToDB(); // Connect to the database
+
     // Make the login request to the API
     const response = await axios.post(`${API_BASE_URL}/login`, {
       reg_no,
@@ -29,19 +32,30 @@ export const loginUser = async (reg_no, password, avatar) => {
         user = new User({
           profile_image: avatar,
           registrationNumber: reg_no,
-          password: password, // You may want to hash the password before saving it
+          password: password, // Ideally, you should hash the password before saving it
           cookie: cookie,
         });
         await user.save(); // Save the user to the database
       } else {
         // If the user exists, update their cookie
-
         user.cookie = cookie;
         await user.save(); // Update the user in the database
       }
+
+      // Generate a JWT token with the user's information
+      const token = jwt.sign(
+        {
+          id: user._id,
+          reg_no: user.registrationNumber,
+        },
+        SECRET_KEY,
+        { expiresIn: "1h" } // Token expiration time
+      );
+
+      return { token, cookie }; // Return the token and cookie
     }
 
-    return response.data; // Return the response data
+    throw new Error("Login failed");
   } catch (error) {
     console.error("Login Error:", error);
     throw error;
