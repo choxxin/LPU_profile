@@ -109,6 +109,14 @@ export default function Home() {
                 </ul>
               </li>
               <li>
+                <a
+                  className={activeContent === "leader" ? "bg-sky-400" : ""}
+                  onClick={() => setActiveContent("leader")}
+                >
+                  LeaderBoard
+                </a>
+              </li>
+              <li>
                 <details className="group">
                   <summary className="cursor-pointer select-none hover:text-blue-500">
                     Announcements
