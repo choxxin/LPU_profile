@@ -34,7 +34,7 @@ const SocialLinksForm = ({ senderId, ininstagram, inlinkedin, ingithub }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4 dark:text-white">
       <div>
         <label htmlFor="linkedin" className="block font-medium">
           LinkedIn

@@ -25,6 +25,7 @@ import Announcements from "@/components/Announcements";
 import Posts from "@/components/Posts/Posts"; // Assuming you have a component for posts
 import { Router } from "next/router";
 import Leaderboard from "@/components/LeaderBoard/leaderboard";
+import { DialogUser } from "@/components/Responsive/Dialuser";
 
 export default function Home() {
   useAuthRedirect();
@@ -51,7 +52,11 @@ export default function Home() {
       <div className="navbar bg-slate-300 dark:bg-slate-800 min-h-20">
         <div className="navbar-start">
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost lg:hidden dark:text-zinc-50  "
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -72,21 +77,46 @@ export default function Home() {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
               <li>
-                <a>Item 1</a>
+                <p
+                  className={activeContent === "profile" ? "bg-sky-400" : ""}
+                  onClick={() => setActiveContent("profile")}
+                >
+                  <DialogUser
+                    setSelectedUser={setSelectedUser}
+                    selectedUser={selectedUser}
+                  />
+                </p>
               </li>
               <li>
-                <a>Parent</a>
+                <a>Explore</a>
                 <ul className="p-2">
                   <li>
-                    <a>Submenu 1</a>
+                    <a
+                      className={activeContent === "posts" ? "bg-sky-400" : ""}
+                      onClick={() => setActiveContent("posts")}
+                    >
+                      Posts
+                    </a>
                   </li>
                   <li>
-                    <a>Submenu 2</a>
+                    <a
+                      className={activeContent === "status" ? "bg-sky-400" : ""}
+                      onClick={() => setActiveContent("status")}
+                    >
+                      Status
+                    </a>
                   </li>
                 </ul>
               </li>
               <li>
-                <a onClick={() => setActiveContent("posts")}>Item 3</a>
+                <details className="group">
+                  <summary className="cursor-pointer select-none hover:text-blue-500">
+                    Announcements
+                  </summary>
+                  <div className="absolute left-0 mt-2 min-w-[410px] min-h-96 shadow-lg h-full w-full text-white bg-black rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border border-gray-900 z-50 dark:text-white">
+                    <Announcements />
+                  </div>
+                </details>
               </li>
             </ul>
           </div>
@@ -193,7 +223,7 @@ export default function Home() {
 
       {/* Main Content */}
       <div className="flex flex-col lg:flex-row flex-grow">
-        <div className="lg:w-1/4 w-full bg-gray-300 dark:bg-slate-900">
+        <div className=" hidden w-full bg-gray-300 dark:bg-slate-900 lg:w-1/4 lg:block  ">
           <UserList
             onSelectUser={setSelectedUser}
             selectedUser={selectedUser}

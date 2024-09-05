@@ -197,15 +197,15 @@ const MyProfile = () => {
   return (
     <>
       {profileData ? (
-        <div className={`min-h-32 w-full border-2 border-pink-300   ${color} `}>
+        <div className={`min-h-32 w-full   ${color} `}>
           <div className="flex flex-col lg:flex-row gap-5 ml-5">
-            <div className="avatar border-lime-300 border-2">
+            <div className="avatar  ">
               <div className="mask mask-squircle w-44">
                 <img src={Inputs.avatar} onLoad={Loadhandler} />
               </div>
             </div>
 
-            <div className="text-5xl font-bold text-gray-800 border-2 border-red-600 ">
+            <div className="text-5xl font-bold text-gray-800   ">
               <p>{profileData.user.name}</p>
 
               {profileData.user.linkedin &&
@@ -257,7 +257,7 @@ const MyProfile = () => {
               )}
             </div>
 
-            <div className="text-xl mt-7 text-semibold text-gray-600 border-2 border-blue-500">
+            <div className="text-xl mt-7 text-semibold text-gray-600 ">
               <p>Reg No:{profileData.user.registrationNumber}</p>
               <LinkedinDrawer
                 senderId={profileData.user._id}
@@ -266,9 +266,9 @@ const MyProfile = () => {
                 github={profileData.user.github}
               />
             </div>
-            <div className="border-2 border-black">
+            <div className=" ">
               <button
-                className="btn btn-ghost ml-7 text-gray-800 border-2 border-gray-300 mt-7 h-20 bg-pink-200"
+                className="btn btn-ghost ml-7 text-gray-800  mt-7 h-20 bg-pink-200"
                 onClick={changeanime}
                 disabled={Loadingg}
               >
@@ -300,7 +300,7 @@ const MyProfile = () => {
                 )}
               </button>
             </div>
-            <div className="  h-16 gap-7 justify-center min-w-52 flex items-center mt-7 ml-3 border-2 border-cyan-600">
+            <div className="  h-16 gap-7 justify-center min-w-52 flex items-center mt-7 ml-3  ">
               <div
                 className={`border-2 border-white h-10 w-10 gradient-profile`}
                 onClick={() => {

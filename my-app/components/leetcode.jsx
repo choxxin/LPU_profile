@@ -35,7 +35,7 @@ const Leetcode = ({ leetcode, switchprofile, username, reg_no, themedow }) => {
   }, [color]);
   return (
     <div
-      className={`flex flex-col min-w-64 md:flex-row gap-10   mt-5 py-11 ${
+      className={`flex flex-col min-w-64 md:flex-row gap-10   mt-5 py-11  ${
         themedow || color
       } `}
     >
@@ -56,7 +56,7 @@ const Leetcode = ({ leetcode, switchprofile, username, reg_no, themedow }) => {
           </p>
         </div>
       </div>
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 items-center ">
         <p className="text-gray-300 text-xl text-bold  ">
           Easy solved: {leetcode.easySolved}
         </p>
@@ -79,7 +79,7 @@ const Leetcode = ({ leetcode, switchprofile, username, reg_no, themedow }) => {
         </div>
       </div>
       {/* //medium-progress */}
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 items-center">
         <p className="text-gray-300 text-xl text-bold">
           Medium solved: {leetcode.mediumSolved}
         </p>
@@ -101,7 +101,7 @@ const Leetcode = ({ leetcode, switchprofile, username, reg_no, themedow }) => {
         </div>
       </div>
       {/* hard */}
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 items-center">
         <p className="text-gray-300 text-xl text-bold  ">
           Hard solved: {leetcode.hardSolved}
         </p>

@@ -61,7 +61,7 @@ const Announcements = () => {
           displayedAnnouncements.map((announcement) => (
             <div
               key={announcement.announcement_id}
-              className="mb-4 p-2 border-b border-t border-gray-200"
+              className="mb-4 p-2 border-b border-t border-gray-200 "
             >
               <h3 className="font-bold text-lg">{announcement.subject}</h3>
               <p>Date: {announcement.date}</p>
