@@ -1,6 +1,7 @@
 import { connectToDB } from "@/utils/database";
 import Conversation from "@/models/Conversation";
 import Message from "@/models/Message";
+
 export async function POST(request) {
   try {
     await connectToDB();
@@ -14,26 +15,41 @@ export async function POST(request) {
     console.log("Receiver ID:", receiverId);
 
     if (!senderId || !receiverId) {
-      return new Response(JSON.stringify({ error: "Sender ID is required" }), {
-        status: 400,
-      });
+      return new Response(
+        JSON.stringify({ error: "Sender ID and Receiver ID are required" }),
+        { status: 400 }
+      );
     }
 
-    const conversation = await Conversation.findOne({
+    // Find or create the conversation between sender and receiver
+    let conversation = await Conversation.findOne({
       participants: { $all: [senderId, receiverId] },
       isGroupChat: false,
     }).populate("messages");
-    console.log("hello");
 
     if (!conversation) {
-      return new Response(JSON.stringify([]), { status: 200 });
+      conversation = await Conversation.create({
+        participants: [senderId, receiverId],
+      });
     }
 
+    // Retrieve messages from the conversation
     const messages = conversation.messages;
+
+    // Update unseen messages for the receiver
+    await Message.updateMany(
+      { senderId: receiverId, receiverId: senderId, isSeen: false },
+      { $set: { isSeen: true } }
+    );
+
     return new Response(JSON.stringify(messages), { status: 200 });
   } catch (err) {
+    console.error("Error in handling message:", err);
     return new Response(
-      JSON.stringify({ error: "Error in receive Message controller", err }),
+      JSON.stringify({
+        error: "Error in receive Message controller",
+        details: err.message,
+      }),
       { status: 500 }
     );
   }

@@ -26,12 +26,13 @@ import Posts from "@/components/Posts/Posts"; // Assuming you have a component f
 import { Router } from "next/router";
 import Leaderboard from "@/components/LeaderBoard/leaderboard";
 import { DialogUser } from "@/components/Responsive/Dialuser";
+import RecentChats from "@/components/chatting/Recentchat";
 
 export default function Home() {
   useAuthRedirect();
   const [selectedUser, setSelectedUser] = useState(null);
   const [activeContent, setActiveContent] = useState("profile"); // State to manage active content
-  const { registrationNumber, dp, name } = useUserStore();
+  const { registrationNumber, dp, name, id } = useUserStore();
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
@@ -236,7 +237,9 @@ export default function Home() {
             onSelectUser={setSelectedUser}
             selectedUser={selectedUser}
           />
+          <RecentChats userId={id} />
         </div>
+
         <div className="lg:w-3/4 w-full flex-grow p-4 dark:bg-slate-500">
           {activeContent === "profile" && selectedUser ? (
             <Lapuinfo registrationNumber={selectedUser.registrationNumber} />

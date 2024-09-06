@@ -25,6 +25,10 @@ const messageSchema = new Schema(
     fullName: {
       type: String,
     },
+    isSeen: {
+      type: Boolean,
+      default: false,
+    },
   },
   //Created and updated at
   { timestamps: true }

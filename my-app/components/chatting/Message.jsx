@@ -12,7 +12,7 @@ function Message({ message }) {
   const mytime = extractTime(message.createdAt);
 
   const fromme = message.senderId === id || message.senderId._id === id;
-  const sender = fromme ? "You" : name;
+  const sender = fromme ? "You" : selectedConversation.name;
   // const sender = fromme
   // const sender = "meow";
   // ? "You"
