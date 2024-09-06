@@ -47,7 +47,7 @@ const UserList = ({ onSelectUser, selectedUser }) => {
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder=" Search users..."
+          placeholder={` Search users...`}
           className="p-2 w-full border rounded-lg dark:bg-gray-800 dark:text-white"
         />
         <FaSearchengin className="h-10 w-10 dark:text-white" />

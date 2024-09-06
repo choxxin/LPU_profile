@@ -80,6 +80,13 @@ function Login() {
       Cookies.set("session", cookie, { path: "/" });
       const meow = await getUserDetails(username, password, cookie);
       const course = await Update_course_detail(username, password, cookie);
+      await fetch("/api/exams/new", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ reg_no: username, password, cookie }),
+      });
 
       setName(meow.user.name);
       // console.log(meow.user.name);

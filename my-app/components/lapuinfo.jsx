@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import useUserStore from "@/store/useUserStore";
 import MessageContainer from "./chatting/Message_con";
 import Drawercomp from "./Drawercomp";
+import ExamList from "./Exams/Examss";
 const Lapuinfo = ({ registrationNumber, user_id }) => {
   const { themetop } = useUserStore();
   const [profileData, setProfileData] = useState(null);
@@ -217,6 +218,9 @@ const Lapuinfo = ({ registrationNumber, user_id }) => {
           </div>
           <div>
             <CourseList courses={course} />
+          </div>
+          <div>
+            <ExamList reg_no={profileData.user.registrationNumber} />
           </div>
         </div>
       ) : (
