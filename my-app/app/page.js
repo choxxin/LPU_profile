@@ -9,6 +9,7 @@ import Link from "next/link";
 import Subjectt from "@/components/graph/Subattendence";
 import ThemeSwitcher from "@/components/NightButton";
 import useAuthRedirect from "@/utils/useAuthredirect";
+import { IoIosNotificationsOutline } from "react-icons/io";
 import {
   loginUser,
   getUserDetails,
@@ -89,6 +90,16 @@ export default function Home() {
                 </p>
               </li>
               <li>
+                <details className="group">
+                  <summary className="cursor-pointer select-none hover:text-blue-500">
+                    Notification
+                  </summary>
+                  <div className="absolute left-0 mt-2 min-w-[370px] min-h-56 shadow-lg h-full w-full text-white bg-black rounded-md   border border-gray-900 z-50 dark:text-white overflow-scroll overflow-x-hidden">
+                    <RecentChats userId={id} />
+                  </div>
+                </details>
+              </li>
+              <li>
                 <a>Explore</a>
                 <ul className="p-2">
                   <li>
@@ -117,6 +128,7 @@ export default function Home() {
                   LeaderBoard
                 </a>
               </li>
+
               <li>
                 <details className="group">
                   <summary className="cursor-pointer select-none hover:text-blue-500">
@@ -182,10 +194,20 @@ export default function Home() {
                 LeaderBoard
               </a>
             </li>
+            <li>
+              <details className="group">
+                <summary className="cursor-pointer select-none hover:text-blue-500">
+                  <IoIosNotificationsOutline className="h-6 w-6" />
+                </summary>
+                <div className="absolute left-0 mt-2 min-w-[430px] min-h-96 shadow-lg h-full w-full text-white bg-black rounded-md   border border-gray-900 z-50 dark:text-white overflow-scroll overflow-x-hidden">
+                  <RecentChats userId={id} />
+                </div>
+              </details>
+            </li>
           </ul>
         </div>
         <div className="navbar-end">
-          <div className="mr-5 hover:bg-slate-400 w-12 rounded-2xl h-11">
+          <div className="mr-5 w-12 rounded-2xl h-11">
             <ThemeSwitcher />
           </div>
 
@@ -219,9 +241,7 @@ export default function Home() {
                   Profile <span className="badge">New</span>
                 </Link>
               </li>
-              <li>
-                <a>Settings</a>
-              </li>
+
               <li>
                 <button onClick={onLogout}>Logout</button>
               </li>
@@ -237,7 +257,6 @@ export default function Home() {
             onSelectUser={setSelectedUser}
             selectedUser={selectedUser}
           />
-          <RecentChats userId={id} />
         </div>
 
         <div className="lg:w-3/4 w-full flex-grow p-4 dark:bg-slate-500">

@@ -19,22 +19,23 @@ const RecentChats = ({ userId }) => {
   }, [userId]);
 
   return (
-    <div className="recent-chats p-5 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">Recent Chats</h2>
-      <ul className="space-y-4">
+    <div className="recent-chats p-5 rounded-lg shadow-md text-white">
+      <h2 className="text-2xl font-bold   mb-4 text-white">Notification</h2>
+      <ul className="space-y-4  ">
         {recentChats.map((chat, index) => (
-          <li key={index} className="chat-item flex items-center space-x-4">
+          <div key={index} className="chat-item flex  space-x-4  ">
             <img
               src={chat.senderId.profile_image}
               alt={`${chat.senderId.name}'s avatar`}
-              className="w-10 h-10 rounded-full"
+              className="w-20 h-20 rounded-full"
             />
             <span className="text-lg font-semibold">{chat.senderId.name}</span>
             {/* Red dot indicator for unread messages */}
-            {!chat.isRead && (
+            {!chat.isSeen && (
               <span className="ml-auto w-3 h-3 rounded-full bg-red-500"></span>
             )}
-          </li>
+            <span>texted you</span>
+          </div>
         ))}
       </ul>
     </div>
